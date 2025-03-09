@@ -3,7 +3,7 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    [SerializeField] private float musicVolume = 0.5f;
+    [SerializeField] private float musicVolume = 0.25f;
     [SerializeField] private float soundEffectsVolume = 0.5f;
     [SerializeField] private AudioClip[] ambientSounds;
     [SerializeField] private AudioClip[] menuMusic;
@@ -13,6 +13,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource audioController;
     private static SoundManager instance;
     private float timeCounter;
+    private bool isPlayingMenuMusic = false;
     
     void Start()
     {
@@ -27,12 +28,14 @@ public class SoundManager : MonoBehaviour
             PlayMainMenuMusic();
             timeCounter = 0;
         }
+        
 
         timeCounter += Time.deltaTime;
     }
 
     private void PlayMainMenuMusic()
     {
+        isPlayingMenuMusic = true;
         audioController.PlayOneShot(menuMusic[Random.Range(0, menuMusic.Length)], musicVolume);
         
     }
