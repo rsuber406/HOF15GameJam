@@ -10,7 +10,7 @@ public class LightFollow : MonoBehaviour
     private Transform target;
     private float timeToUpdate = 0;
     private bool updatePosition = false;
-    [SerializeField] private Transform referencePosition;
+    private Transform referencePosition;
     private Vector3 targetDirection;
     private float distanceToTarget;
     private bool isMoving = false;
