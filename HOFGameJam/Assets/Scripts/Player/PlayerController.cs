@@ -1,36 +1,39 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviour
+public class playerController : MonoBehaviour
 {
-    [SerializeField] private CharacterController controller;
-    [SerializeField] private LayerMask ignoreMask;
+    [SerializeField] CharacterController controller;
+    [SerializeField] LayerMask ignoreMask;
 
-    [SerializeField] private int speed;
-    [SerializeField] private int jumpMax;
-    [SerializeField] private float jumpSpeed;
-    [SerializeField] private int gravity;
+    [SerializeField] int speed;
+    [SerializeField] int jumpMax;
+    [SerializeField] int jumpSpeed;
+    [SerializeField] int gravity;
+
+    [SerializeField] Transform camTransform;
+  //  [SerializeField] Animator animator;
+    
 
 
-    [SerializeField] private Transform camTransform;
+    Vector3 moveDir;
+    Vector3 playerVel;
 
-
-    private Vector3 moveDir;
-    private Vector3 playerVel;
-
-    private int jumpCount;
+    int jumpCount;
 
     void Start()
     {
+       // animator = GetComponent<Animator>();
     }
 
+    // Update is called once per frame
     void Update()
     {
-     Movement();   
-        
+
+        movement();
     }
 
-    void Movement()
+    void movement()
     {
         if (controller.isGrounded)
         {
@@ -38,13 +41,30 @@ public class PlayerController : MonoBehaviour
             playerVel = Vector3.zero;
         }
 
-        moveDir = (Input.GetAxis("Horizontal") * camTransform.right) + (Input.GetAxis("Vertical") * camTransform.forward);
-        Jump();
-        controller.Move(moveDir * speed * Time.deltaTime);
-        playerVel.y -= gravity * Time.deltaTime;
-    }
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
 
-    void Jump()
+        Vector3 cameraForward = Vector3.Scale(camTransform.forward, new Vector3(1, 0, 1)).normalized;
+
+        moveDir = (Input.GetAxis("Horizontal") * camTransform.right) + (Input.GetAxis("Vertical") * camTransform.forward);
+        controller.Move(moveDir * speed * Time.deltaTime);
+
+        if (moveDir.magnitude > 0.1f)
+        {
+          //  animator.SetBool("IsRunning", true);
+        }
+        else
+        {
+         //   animator.SetBool("IsRunning", false);
+        }
+        jump();
+
+        controller.Move(playerVel * Time.deltaTime);
+        playerVel.y -= gravity * Time.deltaTime;
+
+
+    }
+    void jump()
     {
         if (Input.GetButtonDown("Jump") && jumpCount < jumpMax)
         {
@@ -52,7 +72,5 @@ public class PlayerController : MonoBehaviour
             playerVel.y = jumpSpeed;
         }
     }
-
-
 
 }
