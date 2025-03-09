@@ -70,7 +70,7 @@ public class LightFollow : MonoBehaviour
 
     void UpdateStoppedLocation(Vector3 targetPosition)
     {
-        float randomYOffet = Random.Range(-2, 2);
+        float randomYOffet = Random.Range(-0.5f, 0.5f);
         if (Vector3.Distance(transform.position, targetPosition) >= 1f)
         {
             Vector3 directionTowardsTarget = new Vector3(targetPosition.x,
