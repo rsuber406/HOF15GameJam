@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
@@ -10,36 +11,57 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip[] gameMusic;
     [SerializeField] private AudioClip[] footstepSounds;
     [SerializeField] private float timeDelayForMenuCheck;
+    [SerializeField] private float timeDelayForGameCheck;
     [SerializeField] private AudioSource audioController;
     private static SoundManager instance;
-    private float timeCounter;
+    private float timeCounterMenu;
+    private float timeCounterGame = 0f;
     private bool isPlayingMenuMusic = false;
-    
+    private bool isPlayingGameMusic = false;
+    private bool isPlaying = false;
+
     void Start()
     {
         instance = this;
-        timeCounter = timeDelayForMenuCheck;
+        timeCounterMenu = timeDelayForMenuCheck;
     }
 
     void Update()
     {
-        if (timeCounter >= timeDelayForMenuCheck && GameManager.GetInstance().IsPaused())
+        if (GameManager.GetInstance().IsPaused() && timeCounterMenu >= timeDelayForMenuCheck)
         {
-            PlayMainMenuMusic();
-            timeCounter = 0;
+            if (!isPlayingMenuMusic) StartCoroutine(PlayMainMenuMusic());
+            timeCounterMenu = 0f;
         }
-        
 
-        timeCounter += Time.deltaTime;
+        timeCounterMenu += Time.deltaTime;
+
+        if (timeCounterGame >= timeDelayForGameCheck && !GameManager.GetInstance().IsPaused())
+        {
+            if (!isPlayingGameMusic) StartCoroutine(PlayGameMusic());
+            timeCounterGame = 0f;
+        }
+
+        timeCounterGame += Time.deltaTime;
     }
 
-    private void PlayMainMenuMusic()
+    private IEnumerator PlayMainMenuMusic()
     {
         isPlayingMenuMusic = true;
-        audioController.PlayOneShot(menuMusic[Random.Range(0, menuMusic.Length)], musicVolume);
-        
+        int randomTrack = Random.Range(0, menuMusic.Length);
+        audioController.PlayOneShot(menuMusic[randomTrack], musicVolume);
+        yield return new WaitForSeconds(menuMusic[randomTrack].length);
+        isPlayingMenuMusic = false;
+    }
+
+    public IEnumerator PlayGameMusic()
+    {
+        isPlayingGameMusic = true;
+        int randomTrack = Random.Range(0, gameMusic.Length);
+        audioController.PlayOneShot(gameMusic[randomTrack], musicVolume);
+        yield return new WaitForSeconds(gameMusic[randomTrack].length);
+        isPlayingGameMusic = false;
     }
 
     // Update is called once per frame
-
 }
