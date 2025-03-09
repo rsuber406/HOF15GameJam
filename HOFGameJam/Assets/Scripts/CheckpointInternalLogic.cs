@@ -23,10 +23,14 @@ public class CheckpointInternalLogic : MonoBehaviour
     [SerializeField] private bool disabledTrigger = false;
     //DO NOT CHANGE, USED FOR TESTING
 
+    [SerializeField] GameObject haloLight;
+
     private float lightWarmUp = 0.0f;
 
     void Start()
     {
+        haloLight.SetActive(false);
+
         var light = GetComponent<Light>();
         light.range = light_range;
         light.color = new Color(red, green, blue, alpha) * 0;
@@ -47,6 +51,8 @@ public class CheckpointInternalLogic : MonoBehaviour
             ///NEED TO TEST THIS
 
             disabledTrigger = true;
+
+            haloLight.SetActive(false);
         }
     }
 
@@ -75,5 +81,10 @@ public class CheckpointInternalLogic : MonoBehaviour
             light.color = new Color(red, green, blue, alpha) * light_intensity * lightWarmUp;
         }
 
+    }
+
+    void TurnOnHalo()
+    { 
+        haloLight.SetActive(true);
     }
 }
