@@ -22,7 +22,7 @@ public class SoundManager : MonoBehaviour
 
     void Update()
     {
-        if (timeCounter >= timeDelayForMenuCheck)
+        if (timeCounter >= timeDelayForMenuCheck && GameManager.GetInstance().IsPaused())
         {
             PlayMainMenuMusic();
             timeCounter = 0;
