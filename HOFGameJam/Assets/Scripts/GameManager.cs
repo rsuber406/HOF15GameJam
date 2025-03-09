@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using UnityEngine;
+using UnityEngine.UI;
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
@@ -8,7 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject creditsScreen;
     [SerializeField] private Transform[] lightPositions;
-    [SerializeField] private Button startButton;
+    [SerializeField] private Button startButton; 
     public static GameManager instance;
 
     private int guidedTransform = 0;
@@ -23,15 +26,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        isPaused = true;
         Time.timeScale = 0;
         
         ShowCursor();
         
-        if (startButton != null)
-        {
             startButton.onClick.AddListener(OnStartButtonClick);
-        }
-       
+        
+            startButton.gameObject.SetActive(true);
     }
     
     void Update()
@@ -41,16 +43,19 @@ public class GameManager : MonoBehaviour
             ShowCursor();
         }
     }
+    
     private void ShowCursor()
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
+    
     private void HideCursor()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
+    
     private void OnStartButtonClick()
     {
         StateResume();
@@ -61,6 +66,16 @@ public class GameManager : MonoBehaviour
         isPaused = true;
         Time.timeScale = 0;
         ShowCursor();
+        
+        if (mainMenu != null)
+        {
+            mainMenu.SetActive(true);
+        }
+        
+        if (startButton != null && startButton.gameObject != null)
+        {
+            startButton.gameObject.SetActive(true);
+        }
     }
 
     public void StateResume()
@@ -72,6 +87,11 @@ public class GameManager : MonoBehaviour
         if (mainMenu != null)
         {
             mainMenu.SetActive(false);
+        }
+        
+        if (startButton != null && startButton.gameObject != null)
+        {
+            startButton.gameObject.SetActive(false);
         }
     }
 
