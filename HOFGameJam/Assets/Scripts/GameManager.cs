@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
 
     private int guidedTransform = 0;
-    void Start()
+    void Awake()
     {
         instance = this;
     }
@@ -44,5 +44,11 @@ public class GameManager : MonoBehaviour
     public Transform GetPlayerPosition()
     {
         return player.transform;
+    }
+
+    public Transform GetLightCurrentPosition()
+    {
+        Transform current =  lightPositions[guidedTransform];
+        return current;
     }
 }
