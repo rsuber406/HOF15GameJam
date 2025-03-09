@@ -13,7 +13,7 @@ public class LightIntensity : MonoBehaviour
     [SerializeField] float blue = 1;
     [SerializeField] float alpha = 1;
 
-    public Vector4 manualColor;
+    //public Vector4 manualColor;
     
     void Update()
     {
