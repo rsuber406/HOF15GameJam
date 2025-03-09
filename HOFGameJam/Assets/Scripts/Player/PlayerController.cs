@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,9 +13,9 @@ public class playerController : MonoBehaviour
     [SerializeField] int gravity;
 
     [SerializeField] Transform camTransform;
-  //  [SerializeField] Animator animator;
-    
+    //  [SerializeField] Animator animator;
 
+    [SerializeField] Vector3 lastValidCheckpoint;
 
     Vector3 moveDir;
     Vector3 playerVel;
@@ -31,6 +32,10 @@ public class playerController : MonoBehaviour
     {
 
         movement();
+        if (this.transform.position.y <= -100)
+        {
+            deathByFall();
+        }
     }
 
     void movement()
@@ -70,6 +75,21 @@ public class playerController : MonoBehaviour
         {
             jumpCount++;
             playerVel.y = jumpSpeed;
+        }
+    }
+
+    void deathByFall()
+    {
+        controller.enabled = false;
+        this.transform.position = lastValidCheckpoint;
+        controller.enabled = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Checkpoint")
+        {
+            lastValidCheckpoint = this.transform.position;
         }
     }
 

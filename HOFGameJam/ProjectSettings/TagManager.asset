@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Halo
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
@@ -42,5 +42,3 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  m_RenderingLayers:
-  - Default
