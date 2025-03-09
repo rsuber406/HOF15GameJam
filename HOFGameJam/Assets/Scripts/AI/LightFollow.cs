@@ -7,16 +7,20 @@ public class LightFollow : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private float speed = 1.5f;
     [SerializeField] private float timeCheckDelayForPosition = 0.05f;
+    [SerializeField] private float smoothTime;
     private Transform target;
     private float timeToUpdate = 0;
     private bool updatePosition = false;
-    [SerializeField] private Transform referencePosition;
+    private Transform referencePosition;
     private Vector3 targetDirection;
     private float distanceToTarget;
     private bool isMoving = false;
     private Transform currentOrbitingTransform;
     private Transform originalTransform;
     private Vector3 orbitAround;
+    private Vector3 velocity = Vector3.zero;
+ 
+    
 
     void Start()
     {
@@ -60,7 +64,7 @@ public class LightFollow : MonoBehaviour
             Vector3 directionTowardsTarget = new Vector3(referencePosition.position.x,
                 referencePosition.position.y + randomYOffet, referencePosition.position.z);
             transform.position =
-                Vector3.MoveTowards(transform.position, directionTowardsTarget, Time.deltaTime * speed);
+                Vector3.MoveTowards(transform.position, directionTowardsTarget, smoothTime * 0.5f);
         }
         else
         {
@@ -73,10 +77,11 @@ public class LightFollow : MonoBehaviour
         float randomYOffet = Random.Range(-0.5f, 0.5f);
         if (Vector3.Distance(transform.position, targetPosition) >= 1f)
         {
+            
             Vector3 directionTowardsTarget = new Vector3(targetPosition.x,
                 targetPosition.y + randomYOffet, targetPosition.z);
             transform.position =
-                Vector3.MoveTowards(transform.position, directionTowardsTarget, Time.deltaTime * speed);
+                Vector3.SmoothDamp(transform.position, directionTowardsTarget, ref velocity, smoothTime);
         }
 
         else isMoving = false;
