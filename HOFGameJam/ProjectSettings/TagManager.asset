@@ -9,6 +9,8 @@ TagManager:
   - Halo
   - LightPlaced
   - Ground
+  - AbilityTrigger
+  - GameWin
   layers:
   - Default
   - TransparentFX
