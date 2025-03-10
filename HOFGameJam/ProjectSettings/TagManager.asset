@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - Checkpoint
+  - Wall
+  - Halo
   layers:
   - Default
   - TransparentFX
@@ -12,7 +14,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Wall
   - 
   - 
   - 
@@ -42,3 +44,5 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  m_RenderingLayers:
+  - Default

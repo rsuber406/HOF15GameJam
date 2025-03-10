@@ -9,7 +9,7 @@ public class DetectPlayer : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            lightFollow.ChangePosition();
+           lightFollow.ChangePosition();
         }
     }
 
