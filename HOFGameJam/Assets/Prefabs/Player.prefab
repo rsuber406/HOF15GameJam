@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.835266, y: 1.63, z: 9.530001}
-  m_LocalScale: {x: 0.5, y: 1, z: 0.5}
+  m_LocalScale: {x: 0.5, y: 0.7, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4232450608122427615}
@@ -133,11 +133,8 @@ MonoBehaviour:
   maxJumps: 1
   gravityStrength: 10
   cameraInversionSpeed: 0.001
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  groundCheckRadius: 0.01
-  groundCheckDistance: 0.01
+  groundCheckRadius: 0.1
+  groundCheckDistance: 0.1
   showGroundCheckDebug: 1
   initialCheckpoint: {x: 0, y: 0, z: 0}
   fallDeathY: 100
