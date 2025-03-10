@@ -11,6 +11,7 @@ TagManager:
   - Ground
   - AbilityTrigger
   - GameWin
+  - LightOrb
   layers:
   - Default
   - TransparentFX
