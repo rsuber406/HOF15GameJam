@@ -3624,6 +3624,26 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5644646084318702858, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1775584295}
+    - target: {fileID: 5644646084318702858, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: lightPositions.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5644646084318702858, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: 'lightPositions.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1368267766}
+    - target: {fileID: 5644646084318702858, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: 'lightPositions.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1945151497}
+    - target: {fileID: 5644646084318702858, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: 'lightPositions.Array.data[2]'
+      value: 
+      objectReference: {fileID: 909551036}
     - target: {fileID: 5680000553027284482, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -6800,6 +6820,10 @@ PrefabInstance:
       propertyPath: jumpSpeed
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 403242027750903124, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
+      propertyPath: playerModel
+      value: 
+      objectReference: {fileID: 1775584301}
     - target: {fileID: 2473622603337536142, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
       propertyPath: m_Name
       value: Player
@@ -7352,6 +7376,18 @@ PrefabInstance:
     - target: {fileID: 3374134369226737094, guid: b3825fd7fd3f7cb49931912f2ef13780, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854261764333959066, guid: b3825fd7fd3f7cb49931912f2ef13780, type: 3}
+      propertyPath: m_Size.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854261764333959066, guid: b3825fd7fd3f7cb49931912f2ef13780, type: 3}
+      propertyPath: m_Size.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854261764333959066, guid: b3825fd7fd3f7cb49931912f2ef13780, type: 3}
+      propertyPath: m_Size.z
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10338,6 +10374,18 @@ PrefabInstance:
     - target: {fileID: 3374134369226737094, guid: b3825fd7fd3f7cb49931912f2ef13780, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854261764333959066, guid: b3825fd7fd3f7cb49931912f2ef13780, type: 3}
+      propertyPath: m_Size.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854261764333959066, guid: b3825fd7fd3f7cb49931912f2ef13780, type: 3}
+      propertyPath: m_Size.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854261764333959066, guid: b3825fd7fd3f7cb49931912f2ef13780, type: 3}
+      propertyPath: m_Size.z
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14392,6 +14440,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5854261764333959066, guid: b3825fd7fd3f7cb49931912f2ef13780, type: 3}
+      propertyPath: m_Size.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854261764333959066, guid: b3825fd7fd3f7cb49931912f2ef13780, type: 3}
+      propertyPath: m_Size.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854261764333959066, guid: b3825fd7fd3f7cb49931912f2ef13780, type: 3}
+      propertyPath: m_Size.z
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15186,6 +15246,10 @@ PrefabInstance:
     - target: {fileID: 4167095627322153273, guid: 8aacd04292b08864cb9a20955a5ba0e4, type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912688413656699731, guid: 8aacd04292b08864cb9a20955a5ba0e4, type: 3}
+      propertyPath: speed
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7775902786477769403, guid: 8aacd04292b08864cb9a20955a5ba0e4, type: 3}
       propertyPath: m_LocalPosition.x

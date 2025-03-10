@@ -13,11 +13,17 @@ public class GameManager : MonoBehaviour
     
     public static GameManager instance;
     private int guidedTransform = 0;
+
+    private bool isFlipped = false;
+    private bool wasFlipped = false;
+
     private bool isPaused = true;
+    private PlayerController playerController;
     
     void Awake()
     {
         instance = this;
+        playerController = FindAnyObjectByType<PlayerController>();
         ShowCursor();
     }
 
@@ -38,7 +44,18 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
-        
+        isFlipped = playerController.GetFlip();
+        if(isFlipped != wasFlipped ) 
+        {
+            wasFlipped = isFlipped;
+            GameObject[] lights = GameObject.FindGameObjectsWithTag("LightPlaced");
+
+            for(int i = 0; i < lights.Length; ++i) 
+            {
+                lights[i].GetComponent<LightIntensity>().InvertLight();
+            }
+        }
+
         if (isPaused)
         {
             ShowCursor();
@@ -164,6 +181,7 @@ public class GameManager : MonoBehaviour
 
     public Transform GetLightCurrentPosition()
     {
+        if (guidedTransform == lightPositions.Length) guidedTransform = 0;
         Transform current = lightPositions[guidedTransform];
         return current;
     }
@@ -173,6 +191,12 @@ public class GameManager : MonoBehaviour
     {
         return isPaused;
     }
-    
+
+    public void ChangeLightToNextPosition()
+    {
+       
+        if (guidedTransform == lightPositions.Length) guidedTransform = 0;
+        guidedTransform++;
+    }
 
 }
