@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour
     private float currentGravityFactor = 1f;
     private bool isTransitioning = false;
     private float defaultTimeScale;
+    private Quaternion initialCameraRotation;
 
     private bool canInvert = false;
 
@@ -99,11 +101,21 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("AbilityTrigger"))
         {
             canInvert = true;
+            GameManager.instance.toolTip.SetActive(true);
+            StartCoroutine(wait());
+
         }
         else if (other.CompareTag("GameWin"))
         { 
-            //win game show credits
+            GameManager.instance.Win();
         }
+
+    }
+
+    private IEnumerator wait()
+    {
+        yield return new WaitForSeconds(5.0f);
+        GameManager.instance.toolTip.SetActive(false);
 
     }
 
@@ -174,6 +186,7 @@ public class PlayerController : MonoBehaviour
         isTransitioning = true;
         gravityTransitionTimer = 0f;
         gravityInversionCooldownTimer = gravityInversionCooldown;
+        initialCameraRotation = playerModel.localRotation;
 
         Time.timeScale = defaultTimeScale * timeSlowFactor;
 
@@ -186,7 +199,6 @@ public class PlayerController : MonoBehaviour
 
         if (progress >= 1.0f)
         {
-            // Finalize transition
             isTransitioning = false;
             isGravityInverted = !isGravityInverted;
             currentGravityFactor = isGravityInverted ? -1f : 1f;
@@ -197,20 +209,25 @@ public class PlayerController : MonoBehaviour
             velocity.y = 0.2f * currentGravityFactor;
 
             jumpCount = 0;
-
         }
         else
         {
             float targetGravityFactor = isGravityInverted ? 1f : -1f;
-            currentGravityFactor = Mathf.Lerp(currentGravityFactor, targetGravityFactor, SmoothTransitionCurve(progress));
-            float rotationAngle = Mathf.Lerp(isGravityInverted ? 180f : 0f, isGravityInverted ? 0f : 180f, SmoothTransitionCurve(progress));
-            playerModel.localRotation = Quaternion.Euler(rotationAngle, 0f, 0f);
-            targetCameraRotation = Quaternion.Euler(rotationAngle, 0f, 0f);
+            currentGravityFactor =
+                Mathf.Lerp(currentGravityFactor, targetGravityFactor, SmoothTransitionCurve(progress));
+
+            float targetAngle = isGravityInverted ? 0f : 180f;
+
+            targetCameraRotation = Quaternion.Lerp(initialCameraRotation, Quaternion.Euler(targetAngle, 0f, 0f), SmoothTransitionCurve(progress));
+
+            playerModel.localRotation = targetCameraRotation;
+
         }
     }
+
     private float SmoothTransitionCurve(float t)
     {
-        // Smooth step function: 3t² - 2t³
+        // smooth step function: 3t^2 - 2t^3
         return t * t * (3f - 2f * t);
     }
 

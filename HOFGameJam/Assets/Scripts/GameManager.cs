@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject settingsMenu; 
     [SerializeField] private Transform[] lightPositions;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] public GameObject toolTip;
     
     public static GameManager instance;
     private int guidedTransform = 0;
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
+        Time.timeScale = 1.0f;
         isFlipped = playerController.GetFlip();
         if(isFlipped != wasFlipped ) 
         {
@@ -63,11 +66,25 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            isPaused = !isPaused;
-            pauseMenu.SetActive(isPaused);
+            pauseMenu.SetActive(true);
+            ShowCursor();
         }
     }
-    
+
+    public void Win()
+    {
+        isPaused = !isPaused;
+        winScreen.gameObject.SetActive(true);
+        StartCoroutine(wait());
+        
+    }
+
+    private IEnumerator wait()
+    {
+         yield return new WaitForSeconds(1.0f);
+         creditsScreen.gameObject.SetActive(true);
+    }
+
     private void ShowCursor()
     {
         Cursor.visible = true;

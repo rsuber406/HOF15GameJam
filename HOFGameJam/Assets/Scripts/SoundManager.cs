@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private float timeDelayForMenuCheck;
     [SerializeField] private float timeDelayForGameCheck;
     [SerializeField] private AudioSource audioController;
+    [SerializeField] private Slider volumeSlider;
     private static SoundManager instance;
     private float timeCounterMenu;
     private float timeCounterGame = 0f;
@@ -24,7 +26,16 @@ public class SoundManager : MonoBehaviour
     {
         instance = this;
         timeCounterMenu = timeDelayForMenuCheck;
+        
+        volumeSlider.value = AudioListener.volume;
+        
+        volumeSlider.onValueChanged.AddListener(ChangeVolume);
     }
+    void ChangeVolume(float volume)
+    {
+        AudioListener.volume = volume;
+    }
+    
 
     void Update()
     {
@@ -72,5 +83,11 @@ public class SoundManager : MonoBehaviour
     {
         // get differential for master volume
     }
+
+    public void SetMusicVolume(float volume)
+    { 
+        musicVolume = volume;
+    }
+
     // Update is called once per frame
 }
