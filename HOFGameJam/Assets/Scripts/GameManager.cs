@@ -13,11 +13,15 @@ public class GameManager : MonoBehaviour
     
     public static GameManager instance;
     private int guidedTransform = 0;
+
+    private bool isFlipped = false;
     private bool isPaused = true;
+    private PlayerController playerController;
     
     void Awake()
     {
         instance = this;
+        playerController = FindAnyObjectByType<PlayerController>();
         ShowCursor();
     }
 
@@ -38,7 +42,7 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
-        
+        isFlipped = playerController.GetFlip();
         if (isPaused)
         {
             ShowCursor();
