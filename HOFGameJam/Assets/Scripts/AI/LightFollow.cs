@@ -12,6 +12,13 @@ public class LightFollow : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float avoidanceAmount;
     [SerializeField] private float wallDetectionAmount;
+
+    [Header("Obstacle Avoidance")] 
+    [SerializeField] private float avoidanceDistance;
+
+    [SerializeField] private float avoidanceForce;
+    [SerializeField] private int numberOfRays;
+    [SerializeField] private float rayAngle;
     private Transform target;
     private float timeToUpdate = 0;
     private bool updatePosition = false;
@@ -20,25 +27,23 @@ public class LightFollow : MonoBehaviour
     private float distanceToTarget;
     private bool isMoving = false;
     private Transform currentOrbitingTransform;
-    private Transform originalTransform;
     private Vector3 orbitAround;
-    private Vector3 velocity = Vector3.zero;
-    private GameObject[] walls;
     public bool debug = true;
-    private Vector3 wallNormal = Vector3.zero;
     private GameObject nearestWall = null;
-    Vector3 calculatedMoveDir = Vector3.zero;
+    private Vector3 avoidanceDirection;
+    private int rayHits = 0;
+    
     void Start()
     {
-        originalTransform = referencePosition;
-        walls = GameObject.FindGameObjectsWithTag("Wall");
+        avoidanceDirection = Vector3.zero;
+        
     }
 
     void Update()
     {
         if (updatePosition)
         {
-            MoveTowardsTarget();
+           PathFinding();
         }
 
         if (timeToUpdate >= timeCheckDelayForPosition && !updatePosition && !isMoving)
@@ -47,7 +52,7 @@ public class LightFollow : MonoBehaviour
             timeToUpdate = 0;
         }
 
-        if (isMoving)
+        if (isMoving&& !updatePosition)
         {
             UpdateStoppedLocation(orbitAround);
         }
@@ -61,6 +66,7 @@ public class LightFollow : MonoBehaviour
         referencePosition = GameManager.GetInstance().GetLightGoToPosition();
         targetDirection = (referencePosition.position - transform.position).normalized;
         distanceToTarget = Vector3.Distance(referencePosition.position, transform.position);
+        GameManager.GetInstance().ChangeLightToNextPosition();
     }
 
     void LerpToTarget()
@@ -86,8 +92,7 @@ public class LightFollow : MonoBehaviour
         {
             Vector3 directionTowardsTarget = new Vector3(targetPosition.x,
                 targetPosition.y + randomYOffet, targetPosition.z);
-            transform.position =
-                Vector3.SmoothDamp(transform.position, directionTowardsTarget, ref velocity, smoothTime);
+           // transform.position = Vector3.SmoothDamp(transform.position, directionTowardsTarget, ref velocity, smoothTime);
         }
 
         else isMoving = false;
@@ -103,71 +108,61 @@ public class LightFollow : MonoBehaviour
         UpdateStoppedLocation(targetLocation);
     }
 
-    public void PathFinding()
+    void PathFinding()
     {
-        FindNearestWall();
-        calculatedMoveDir = CalculateFollowDirection();
+        Transform target = GameManager.GetInstance().GetLightCurrentPosition();
+        Debug.Log(target.position);
+        Vector3 targetDirection = (target.position - transform.position).normalized;
         
+        avoidanceDirection = CalculateAvoidanceDirection();
+
+        Vector3 finalDirection = (targetDirection + avoidanceDirection  * avoidanceForce).normalized;
+
+        Debug.DrawRay(transform.position, finalDirection, Color.red);
+        if (Vector3.Distance(transform.position, target.position) > 1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(finalDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
+            
+            transform.position +=  transform.forward * speed * Time.deltaTime;
+        }
+        else
+        {
+            updatePosition = false;
+        }
     }
 
-    void FindNearestWall()
+    Vector3 CalculateAvoidanceDirection()
     {
-        float closestDistance = float.MaxValue;
-        
-        wallNormal = Vector3.zero;
-        nearestWall = null;
+        Vector3 avoidDir = Vector3.zero;
 
-        foreach (GameObject wall in walls)
+        int obstacleMask = LayerMask.GetMask("Wall");
+        for (int i = 0; i < numberOfRays; i++)
         {
-            Collider wallCollider = wall.GetComponent<Collider>();
-            if (wallCollider == null) continue;
-            
-            Vector3 closestPoint = wallCollider.ClosestPoint(transform.position);
-            float distance = Vector3.Distance(transform.position, closestPoint);
+            float angle = (i * (360f / numberOfRays)) - rayAngle * 0.5f;
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
+            Vector3 direction = rotation * transform.forward;
 
-            if (distance < closestDistance)
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, direction, out hit, avoidanceDistance, obstacleMask))
             {
-                closestDistance = distance;
+                float weight = 1.0f - (hit.distance / avoidanceDistance);
+                Vector3 avoidanceVector = -direction.normalized * weight;
                 
-                // find the normal of the direction of the closest point on the wall
-                wallNormal = (transform.position - closestPoint).normalized;
-
-            }
-
-            if (nearestWall != null && closestDistance < avoidanceAmount)
-            {
-                // This will force the light away from the wall
-                transform.position = transform.position + wallNormal * (avoidanceAmount - closestDistance);
+                avoidDir += avoidanceVector;
+                rayHits++;
             }
             
+            
         }
-    }
 
-    Vector3 CalculateFollowDirection()
-    {
-        // direction along the wall
-        Vector3 alongWall = Vector3.Cross(wallNormal, Vector3.up).normalized;
-        
-        Vector3 targetPostion = GameManager.GetInstance().GetLightCurrentPosition().position;
-
-        float dotAgainstTheWall = Vector3.Dot(alongWall, targetPostion - transform.position);
-        if (dotAgainstTheWall < 0)
+        RaycastHit frontHit;
+        if (Physics.Raycast(transform.position, transform.forward, out frontHit, avoidanceDistance, obstacleMask))
         {
-            alongWall = -alongWall;
+            float weight = 1.0f - (frontHit.distance / avoidanceDistance);
+            avoidDir += -transform.forward * (weight * 2);
         }
-        
-        // Weight the direction towards the target position
-        float distance = Vector3.Distance(transform.position, targetPostion);
-
-        float targetWeight = Mathf.Clamp01(1.0f / distance);
-        
-        Vector3 blendedDirection = Vector3.Lerp(alongWall, targetDirection, targetWeight);
-        
-        return blendedDirection.normalized;
+        return avoidDir.normalized;
     }
 
-    void MoveTowardsTarget()
-    {
-        transform.position = calculatedMoveDir * (speed * Time.deltaTime);
-    }
 }
