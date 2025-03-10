@@ -504,18 +504,58 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 265289018655780368, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 434563354725393508, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
     - target: {fileID: 434563354725393508, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3807772024151636342, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4174640888043267218, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4174640888043267218, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: m_OverrideSorting
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4335742323819521022, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5145944312893888446, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5614015297544878180, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5644646084318702858, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 140055054}
+    - target: {fileID: 5680000553027284482, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6100631184335487687, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6699319384745742781, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7938935489593721100, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -595,6 +635,14 @@ PrefabInstance:
     - target: {fileID: 7938935489593721100, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8874753450888998516, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: m_SortingOrder
+      value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 8874753450888998516, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: m_OverrideSorting
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
