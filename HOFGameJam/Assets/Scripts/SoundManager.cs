@@ -43,6 +43,10 @@ public class SoundManager : MonoBehaviour
         }
 
         timeCounterGame += Time.deltaTime;
+
+        //Ok these are both just delays so that the ambiant sound does not play as soon as you start
+        //No changes needed
+
     }
 
     private IEnumerator PlayMainMenuMusic()
