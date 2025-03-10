@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -99,11 +100,21 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("AbilityTrigger"))
         {
             canInvert = true;
+            GameManager.instance.toolTip.SetActive(true);
+            StartCoroutine(wait());
+
         }
         else if (other.CompareTag("GameWin"))
         { 
-            //win game show credits
+            GameManager.instance.Win();
         }
+
+    }
+
+    private IEnumerator wait()
+    {
+        yield return new WaitForSeconds(5.0f);
+        GameManager.instance.toolTip.SetActive(false);
 
     }
 
