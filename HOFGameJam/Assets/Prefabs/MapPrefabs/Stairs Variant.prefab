@@ -320,7 +320,18 @@ PrefabInstance:
       value: Adjustable_Cube (8)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1952012651186471695, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 4310206325457950518, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 113150366830258944, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5073942761061305422, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 8925487800954014121, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5210156218677954460, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 78920844388946144, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5310358496076912095, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 8154036192342731955, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 3368634262173990043, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 6687908327322367260, guid: ce540f975b44c16468261291757064e5, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce540f975b44c16468261291757064e5, type: 3}
@@ -394,7 +405,18 @@ PrefabInstance:
       value: Adjustable_Cube (5)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1952012651186471695, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 4310206325457950518, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 113150366830258944, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5073942761061305422, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 8925487800954014121, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5210156218677954460, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 78920844388946144, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5310358496076912095, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 8154036192342731955, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 3368634262173990043, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 6687908327322367260, guid: ce540f975b44c16468261291757064e5, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce540f975b44c16468261291757064e5, type: 3}
@@ -468,7 +490,18 @@ PrefabInstance:
       value: Adjustable_Cube (4)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1952012651186471695, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 4310206325457950518, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 113150366830258944, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5073942761061305422, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 8925487800954014121, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5210156218677954460, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 78920844388946144, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5310358496076912095, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 8154036192342731955, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 3368634262173990043, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 6687908327322367260, guid: ce540f975b44c16468261291757064e5, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce540f975b44c16468261291757064e5, type: 3}
@@ -542,7 +575,18 @@ PrefabInstance:
       value: Adjustable_Cube (3)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1952012651186471695, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 4310206325457950518, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 113150366830258944, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5073942761061305422, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 8925487800954014121, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5210156218677954460, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 78920844388946144, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5310358496076912095, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 8154036192342731955, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 3368634262173990043, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 6687908327322367260, guid: ce540f975b44c16468261291757064e5, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce540f975b44c16468261291757064e5, type: 3}
@@ -616,7 +660,18 @@ PrefabInstance:
       value: Adjustable_Cube (7)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1952012651186471695, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 4310206325457950518, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 113150366830258944, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5073942761061305422, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 8925487800954014121, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5210156218677954460, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 78920844388946144, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5310358496076912095, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 8154036192342731955, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 3368634262173990043, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 6687908327322367260, guid: ce540f975b44c16468261291757064e5, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce540f975b44c16468261291757064e5, type: 3}
@@ -690,7 +745,18 @@ PrefabInstance:
       value: Adjustable_Cube (6)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1952012651186471695, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 4310206325457950518, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 113150366830258944, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5073942761061305422, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 8925487800954014121, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5210156218677954460, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 78920844388946144, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 5310358496076912095, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 8154036192342731955, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 3368634262173990043, guid: ce540f975b44c16468261291757064e5, type: 3}
+    - {fileID: 6687908327322367260, guid: ce540f975b44c16468261291757064e5, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce540f975b44c16468261291757064e5, type: 3}
