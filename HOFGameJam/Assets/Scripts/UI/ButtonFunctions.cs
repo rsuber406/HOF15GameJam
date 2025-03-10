@@ -6,5 +6,19 @@ public class ButtonFunctions : MonoBehaviour
   {
     GameManager.instance.StateResume();
   }
-  
+
+  public void OpenSettings()
+  {
+    GameManager.instance.OpenSettingsMenu();
+  }
+
+  public void CloseSettings()
+  {
+    GameManager.instance.CloseSettingsMenu();
+  }
+
+  public void QuitGame()
+  {
+    GameManager.instance.QuitGame();
+  }
 }
