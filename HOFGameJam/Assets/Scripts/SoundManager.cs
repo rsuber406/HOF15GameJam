@@ -63,5 +63,9 @@ public class SoundManager : MonoBehaviour
         isPlayingGameMusic = false;
     }
 
+    private void DetermineVolumeDifferential()
+    {
+        // get differential for master volume
+    }
     // Update is called once per frame
 }
