@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
+        Time.timeScale = 1.0f;
         isFlipped = playerController.GetFlip();
         if(isFlipped != wasFlipped ) 
         {
@@ -65,14 +66,15 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            pauseMenu.SetActive(isPaused);
+            pauseMenu.SetActive(true);
+            ShowCursor();
         }
     }
 
     public void Win()
     {
         isPaused = !isPaused;
-        winScreen.gameObject.SetActive(isPaused);
+        winScreen.gameObject.SetActive(true);
         StartCoroutine(wait());
         
     }
@@ -80,7 +82,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator wait()
     {
          yield return new WaitForSeconds(1.0f);
-         creditsScreen.gameObject.SetActive(isPaused);
+         creditsScreen.gameObject.SetActive(true);
     }
 
     private void ShowCursor()
