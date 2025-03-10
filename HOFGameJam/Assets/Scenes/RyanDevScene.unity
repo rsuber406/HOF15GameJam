@@ -195,6 +195,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6884670850120083339, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7938935489593721100, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -413,7 +417,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5489051535654423990, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.835266
+      value: -3.0494998
       objectReference: {fileID: 0}
     - target: {fileID: 5489051535654423990, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -421,7 +425,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5489051535654423990, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.530001
+      value: 2.9750004
       objectReference: {fileID: 0}
     - target: {fileID: 5489051535654423990, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -574,7 +578,7 @@ Transform:
   m_GameObject: {fileID: 1415508919}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -38, y: -10, z: -6.6561446}
+  m_LocalPosition: {x: -38, y: 7, z: -6.6561446}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -651,7 +655,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -856,6 +860,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 474196264}
     - target: {fileID: 6912688413656699731, guid: 8aacd04292b08864cb9a20955a5ba0e4, type: 3}
+      propertyPath: speed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912688413656699731, guid: 8aacd04292b08864cb9a20955a5ba0e4, type: 3}
+      propertyPath: rayAngle
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912688413656699731, guid: 8aacd04292b08864cb9a20955a5ba0e4, type: 3}
       propertyPath: smoothTime
       value: 1.5
       objectReference: {fileID: 0}
@@ -863,6 +875,26 @@ PrefabInstance:
       propertyPath: sourceLight
       value: 
       objectReference: {fileID: 499799629}
+    - target: {fileID: 6912688413656699731, guid: 8aacd04292b08864cb9a20955a5ba0e4, type: 3}
+      propertyPath: numberOfRays
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912688413656699731, guid: 8aacd04292b08864cb9a20955a5ba0e4, type: 3}
+      propertyPath: avoidanceForce
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912688413656699731, guid: 8aacd04292b08864cb9a20955a5ba0e4, type: 3}
+      propertyPath: avoidanceAmount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912688413656699731, guid: 8aacd04292b08864cb9a20955a5ba0e4, type: 3}
+      propertyPath: avoidanceDistance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912688413656699731, guid: 8aacd04292b08864cb9a20955a5ba0e4, type: 3}
+      propertyPath: wallDetectionAmount
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7775902786477769403, guid: 8aacd04292b08864cb9a20955a5ba0e4, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.45
