@@ -13,8 +13,8 @@ public class LightFollow : MonoBehaviour
     [SerializeField] private float avoidanceAmount;
     [SerializeField] private float wallDetectionAmount;
 
-    [Header("Obstacle Avoidance")] 
-    [SerializeField] private float avoidanceDistance;
+    [Header("Obstacle Avoidance")] [SerializeField]
+    private float avoidanceDistance;
 
     [SerializeField] private float avoidanceForce;
     [SerializeField] private int numberOfRays;
@@ -32,19 +32,17 @@ public class LightFollow : MonoBehaviour
     private GameObject nearestWall = null;
     private Vector3 avoidanceDirection;
     private int rayHits = 0;
-    
+    private bool changeLightPos = false;
+
     void Start()
     {
         avoidanceDirection = Vector3.zero;
-        
     }
 
     void Update()
     {
-        if (updatePosition)
-        {
-           PathFinding();
-        }
+        PathFinding();
+
 
         if (timeToUpdate >= timeCheckDelayForPosition && !updatePosition && !isMoving)
         {
@@ -52,7 +50,7 @@ public class LightFollow : MonoBehaviour
             timeToUpdate = 0;
         }
 
-        if (isMoving&& !updatePosition)
+        if (isMoving && !updatePosition)
         {
             UpdateStoppedLocation(orbitAround);
         }
@@ -63,10 +61,12 @@ public class LightFollow : MonoBehaviour
     public void ChangePosition()
     {
         updatePosition = true;
+        changeLightPos = true;
         referencePosition = GameManager.GetInstance().GetLightGoToPosition();
         targetDirection = (referencePosition.position - transform.position).normalized;
         distanceToTarget = Vector3.Distance(referencePosition.position, transform.position);
         GameManager.GetInstance().ChangeLightToNextPosition();
+        PathFinding();
     }
 
     void LerpToTarget()
@@ -92,7 +92,7 @@ public class LightFollow : MonoBehaviour
         {
             Vector3 directionTowardsTarget = new Vector3(targetPosition.x,
                 targetPosition.y + randomYOffet, targetPosition.z);
-           // transform.position = Vector3.SmoothDamp(transform.position, directionTowardsTarget, ref velocity, smoothTime);
+            // transform.position = Vector3.SmoothDamp(transform.position, directionTowardsTarget, ref velocity, smoothTime);
         }
 
         else isMoving = false;
@@ -113,22 +113,21 @@ public class LightFollow : MonoBehaviour
         Transform target = GameManager.GetInstance().GetLightCurrentPosition();
         Debug.Log(target.position);
         Vector3 targetDirection = (target.position - transform.position).normalized;
-        
+
         avoidanceDirection = CalculateAvoidanceDirection();
 
-        Vector3 finalDirection = (targetDirection + avoidanceDirection  * avoidanceForce).normalized;
+        Vector3 finalDirection = (targetDirection + avoidanceDirection * avoidanceForce).normalized;
 
         Debug.DrawRay(transform.position, finalDirection, Color.red);
         if (Vector3.Distance(transform.position, target.position) > 1f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(finalDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
-            
-            transform.position +=  transform.forward * speed * Time.deltaTime;
+
+            transform.position += transform.forward * speed * Time.deltaTime;
         }
         else
         {
-            updatePosition = false;
         }
     }
 
@@ -148,12 +147,10 @@ public class LightFollow : MonoBehaviour
             {
                 float weight = 1.0f - (hit.distance / avoidanceDistance);
                 Vector3 avoidanceVector = -direction.normalized * weight;
-                
+
                 avoidDir += avoidanceVector;
                 rayHits++;
             }
-            
-            
         }
 
         RaycastHit frontHit;
@@ -162,7 +159,7 @@ public class LightFollow : MonoBehaviour
             float weight = 1.0f - (frontHit.distance / avoidanceDistance);
             avoidDir += -transform.forward * (weight * 2);
         }
+
         return avoidDir.normalized;
     }
-
 }

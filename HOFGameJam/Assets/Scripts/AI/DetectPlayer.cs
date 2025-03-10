@@ -9,7 +9,10 @@ public class DetectPlayer : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-           lightFollow.ChangePosition();
+          // lightFollow.ChangePosition();
+           GameManager.GetInstance().ChangeLightToNextPosition();
+           BoxCollider boxCollider = this.GetComponent<BoxCollider>();
+           boxCollider.enabled = false;
         }
     }
 
