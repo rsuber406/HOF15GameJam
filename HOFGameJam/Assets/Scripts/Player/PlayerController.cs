@@ -227,7 +227,7 @@ public class PlayerController : MonoBehaviour
 
     private float SmoothTransitionCurve(float t)
     {
-        // Smooth step function: 3t² - 2t³
+        // smooth step function: 3t^2 - 2t^3
         return t * t * (3f - 2f * t);
     }
 
