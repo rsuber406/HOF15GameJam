@@ -53,6 +53,7 @@ public class SoundManager : MonoBehaviour
         yield return new WaitForSeconds(menuMusic[randomTrack].length);
         isPlayingMenuMusic = false;
     }
+    
 
     public IEnumerator PlayGameMusic()
     {
