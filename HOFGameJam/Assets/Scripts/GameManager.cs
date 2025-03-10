@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
+        
         if (isPaused)
         {
             ShowCursor();
@@ -166,4 +167,12 @@ public class GameManager : MonoBehaviour
         Transform current = lightPositions[guidedTransform];
         return current;
     }
+    
+
+    public bool IsPaused()
+    {
+        return isPaused;
+    }
+    
+
 }
