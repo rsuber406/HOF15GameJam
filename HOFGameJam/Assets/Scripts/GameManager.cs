@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     private int guidedTransform = 0;
 
     private bool isFlipped = false;
+    private bool wasFlipped = false;
+
     private bool isPaused = true;
     private PlayerController playerController;
     
@@ -43,6 +45,17 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         isFlipped = playerController.GetFlip();
+        if(isFlipped != wasFlipped ) 
+        {
+            wasFlipped = isFlipped;
+            GameObject[] lights = GameObject.FindGameObjectsWithTag("LightPlaced");
+
+            for(int i = 0; i < lights.Length; ++i) 
+            {
+                lights[i].GetComponent<LightIntensity>().InvertLight();
+            }
+        }
+
         if (isPaused)
         {
             ShowCursor();
