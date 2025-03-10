@@ -447,33 +447,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 403242027750903124, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
-      propertyPath: gravityStrength
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 403242027750903124, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
-      propertyPath: groundCheckRadius
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 403242027750903124, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
-      propertyPath: groundCheckDistance
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 403242027750903124, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
-      propertyPath: cameraInversionSpeed
-      value: 0.001
-      objectReference: {fileID: 0}
     - target: {fileID: 2473622603337536142, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 4232450608122427615, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 5489051535654423990, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 5489051535654423990, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
       propertyPath: m_LocalPosition.x
