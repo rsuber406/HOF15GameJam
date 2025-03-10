@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -73,9 +74,15 @@ public class GameManager : MonoBehaviour
     {
         isPaused = !isPaused;
         winScreen.gameObject.SetActive(isPaused);
+        StartCoroutine(wait());
         creditsScreen.gameObject.SetActive(isPaused);
     }
-    
+
+    private IEnumerator wait()
+    {
+         yield return new WaitForSeconds(1.0f);
+    }
+
     private void ShowCursor()
     {
         Cursor.visible = true;
