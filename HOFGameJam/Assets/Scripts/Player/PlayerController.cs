@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        // Update timers
+        
         if (jumpCooldown > 0)
         {
             jumpCooldown -= Time.deltaTime;

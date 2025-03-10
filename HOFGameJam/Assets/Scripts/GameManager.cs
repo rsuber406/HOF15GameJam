@@ -60,14 +60,13 @@ public class GameManager : MonoBehaviour
 
         if (isPaused)
         {
-            Time.timeScale = 0;
+           
             ShowCursor();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            isPaused = !isPaused;
-            pauseMenu.SetActive(isPaused);
+            StatePause();
         }
     }
 
@@ -136,7 +135,7 @@ public class GameManager : MonoBehaviour
         
         if (mainMenu != null)
         {
-            mainMenu.SetActive(true);
+            pauseMenu.SetActive(true);
         }
         
         if (settingsMenu != null)
