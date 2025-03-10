@@ -221,6 +221,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &911567921 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3264371545219749852, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+  m_PrefabInstance: {fileID: 2876654541792746457}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1241755206 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 866517371296262893, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+  m_PrefabInstance: {fileID: 2876654541792746457}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1644312913
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,6 +413,14 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 140055054}
+    - target: {fileID: 5644646084318702858, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 1241755206}
+    - target: {fileID: 5644646084318702858, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
+      propertyPath: settingsMenu
+      value: 
+      objectReference: {fileID: 911567921}
     - target: {fileID: 7938935489593721100, guid: 30a713d02a2c5ea449d44827e7efd690, type: 3}
       propertyPath: m_Pivot.x
       value: 0
