@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2218376584793684376}
   m_Layer: 0
   m_Name: Halo
-  m_TagString: Untagged
+  m_TagString: Halo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,7 +44,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 0.92941177, b: 0.69411767, a: 1}
   m_Intensity: 20
-  m_Range: 1
+  m_Range: 0.5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -139,8 +139,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 2
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 1, g: 0.92941177, b: 0.69411767, a: 1}
+  m_Intensity: 1.5
   m_Range: 20
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -206,6 +206,7 @@ GameObject:
   - component: {fileID: 4714116018228011307}
   - component: {fileID: 9081177353088345445}
   - component: {fileID: 6912688413656699731}
+  - component: {fileID: 4908201486162787560}
   m_Layer: 0
   m_Name: GuidingLight
   m_TagString: Untagged
@@ -221,10 +222,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8444921095824543848}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.1006556, y: 3.8739688, z: -0.82104015}
-  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: -0.024424745, y: 0.03226826, z: 0.0028677373, w: 0.9991767}
+  m_LocalPosition: {x: -1.0764664, y: 3.8926077, z: -0.28210992}
+  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4797725027924085773}
   - {fileID: 9035057023860833557}
@@ -237,7 +238,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8444921095824543848}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -297,3 +298,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1.5
   timeCheckDelayForPosition: 0.05
+  smoothTime: 1.5
+  rb: {fileID: 4908201486162787560}
+  avoidanceAmount: 5
+  wallDetectionAmount: 5
+  avoidanceDistance: 3
+  avoidanceForce: 5
+  numberOfRays: 8
+  rayAngle: 90
+  debug: 1
+--- !u!54 &4908201486162787560
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8444921095824543848}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

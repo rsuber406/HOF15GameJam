@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5854261764333959066}
   - component: {fileID: 6178741866114128343}
   - component: {fileID: 984852627056634423}
+  - component: {fileID: 882972990964123355}
   m_Layer: 0
   m_Name: CheckPoint
   m_TagString: Checkpoint
@@ -97,7 +98,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 2
-  m_Color: {r: 1.2574121, g: 1.2574121, b: 1.2574121, a: 1.2574121}
+  m_Color: {r: 1.070595, g: 1.070595, b: 1.070595, a: 1.070595}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -152,6 +153,19 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &882972990964123355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737178626607157684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84e414e7ce2fc7048b88586ad8c4d05a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightSource: {fileID: 8444921095824543848, guid: 8aacd04292b08864cb9a20955a5ba0e4, type: 3}
 --- !u!1 &2352382675699547638
 GameObject:
   m_ObjectHideFlags: 0

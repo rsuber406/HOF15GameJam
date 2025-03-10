@@ -164,6 +164,7 @@ public class GameManager : MonoBehaviour
 
     public Transform GetLightCurrentPosition()
     {
+        if (guidedTransform == lightPositions.Length) guidedTransform = 0;
         Transform current = lightPositions[guidedTransform];
         return current;
     }
@@ -173,6 +174,12 @@ public class GameManager : MonoBehaviour
     {
         return isPaused;
     }
-    
+
+    public void ChangeLightToNextPosition()
+    {
+       
+        if (guidedTransform == lightPositions.Length) guidedTransform = 0;
+        guidedTransform++;
+    }
 
 }

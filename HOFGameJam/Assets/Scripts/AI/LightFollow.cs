@@ -1,5 +1,6 @@
 using System.Numerics;
 using UnityEngine;
+using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
 public class LightFollow : MonoBehaviour
@@ -8,6 +9,16 @@ public class LightFollow : MonoBehaviour
     [SerializeField] private float speed = 1.5f;
     [SerializeField] private float timeCheckDelayForPosition = 0.05f;
     [SerializeField] private float smoothTime;
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private float avoidanceAmount;
+    [SerializeField] private float wallDetectionAmount;
+
+    [Header("Obstacle Avoidance")] [SerializeField]
+    private float avoidanceDistance;
+
+    [SerializeField] private float avoidanceForce;
+    [SerializeField] private int numberOfRays;
+    [SerializeField] private float rayAngle;
     private Transform target;
     private float timeToUpdate = 0;
     private bool updatePosition = false;
@@ -16,23 +27,22 @@ public class LightFollow : MonoBehaviour
     private float distanceToTarget;
     private bool isMoving = false;
     private Transform currentOrbitingTransform;
-    private Transform originalTransform;
     private Vector3 orbitAround;
-    private Vector3 velocity = Vector3.zero;
- 
-    
+    public bool debug = true;
+    private GameObject nearestWall = null;
+    private Vector3 avoidanceDirection;
+    private int rayHits = 0;
+    private bool changeLightPos = false;
 
     void Start()
     {
-        originalTransform = referencePosition;
+        avoidanceDirection = Vector3.zero;
     }
 
     void Update()
     {
-        if (updatePosition)
-        {
-            LerpToTarget();
-        }
+        PathFinding();
+
 
         if (timeToUpdate >= timeCheckDelayForPosition && !updatePosition && !isMoving)
         {
@@ -40,7 +50,7 @@ public class LightFollow : MonoBehaviour
             timeToUpdate = 0;
         }
 
-        if (isMoving)
+        if (isMoving && !updatePosition)
         {
             UpdateStoppedLocation(orbitAround);
         }
@@ -51,9 +61,12 @@ public class LightFollow : MonoBehaviour
     public void ChangePosition()
     {
         updatePosition = true;
+        changeLightPos = true;
         referencePosition = GameManager.GetInstance().GetLightGoToPosition();
         targetDirection = (referencePosition.position - transform.position).normalized;
         distanceToTarget = Vector3.Distance(referencePosition.position, transform.position);
+        GameManager.GetInstance().ChangeLightToNextPosition();
+        PathFinding();
     }
 
     void LerpToTarget()
@@ -77,11 +90,9 @@ public class LightFollow : MonoBehaviour
         float randomYOffet = Random.Range(-0.5f, 0.5f);
         if (Vector3.Distance(transform.position, targetPosition) >= 1f)
         {
-            
             Vector3 directionTowardsTarget = new Vector3(targetPosition.x,
                 targetPosition.y + randomYOffet, targetPosition.z);
-            transform.position =
-                Vector3.SmoothDamp(transform.position, directionTowardsTarget, ref velocity, smoothTime);
+            // transform.position = Vector3.SmoothDamp(transform.position, directionTowardsTarget, ref velocity, smoothTime);
         }
 
         else isMoving = false;
@@ -95,5 +106,60 @@ public class LightFollow : MonoBehaviour
         isMoving = true;
         orbitAround = targetLocation;
         UpdateStoppedLocation(targetLocation);
+    }
+
+    void PathFinding()
+    {
+        Transform target = GameManager.GetInstance().GetLightCurrentPosition();
+        Debug.Log(target.position);
+        Vector3 targetDirection = (target.position - transform.position).normalized;
+
+        avoidanceDirection = CalculateAvoidanceDirection();
+
+        Vector3 finalDirection = (targetDirection + avoidanceDirection * avoidanceForce).normalized;
+
+        Debug.DrawRay(transform.position, finalDirection, Color.red);
+        if (Vector3.Distance(transform.position, target.position) > 1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(finalDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
+
+            transform.position += transform.forward * speed * Time.deltaTime;
+        }
+        else
+        {
+        }
+    }
+
+    Vector3 CalculateAvoidanceDirection()
+    {
+        Vector3 avoidDir = Vector3.zero;
+
+        int obstacleMask = LayerMask.GetMask("Wall");
+        for (int i = 0; i < numberOfRays; i++)
+        {
+            float angle = (i * (360f / numberOfRays)) - rayAngle * 0.5f;
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
+            Vector3 direction = rotation * transform.forward;
+
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, direction, out hit, avoidanceDistance, obstacleMask))
+            {
+                float weight = 1.0f - (hit.distance / avoidanceDistance);
+                Vector3 avoidanceVector = -direction.normalized * weight;
+
+                avoidDir += avoidanceVector;
+                rayHits++;
+            }
+        }
+
+        RaycastHit frontHit;
+        if (Physics.Raycast(transform.position, transform.forward, out frontHit, avoidanceDistance, obstacleMask))
+        {
+            float weight = 1.0f - (frontHit.distance / avoidanceDistance);
+            avoidDir += -transform.forward * (weight * 2);
+        }
+
+        return avoidDir.normalized;
     }
 }
