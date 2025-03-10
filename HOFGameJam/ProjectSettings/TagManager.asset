@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 3
   tags:
   - Checkpoint
-  - Halo
   - Wall
   layers:
   - Default
@@ -14,7 +13,7 @@ TagManager:
   - 
   - Water
   - UI
-  - LightGuidance
+  - 
   - 
   - 
   - 

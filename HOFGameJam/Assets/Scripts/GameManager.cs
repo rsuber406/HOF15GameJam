@@ -1,39 +1,39 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-using UnityEngine;
-using UnityEngine.UI;
-
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject creditsScreen;
+    [SerializeField] private GameObject settingsMenu; 
     [SerializeField] private Transform[] lightPositions;
-    [SerializeField] private Button startButton; 
+    [SerializeField] private GameObject pauseMenu;
+    
     public static GameManager instance;
-
     private int guidedTransform = 0;
     private bool isPaused = true;
     
     void Awake()
     {
         instance = this;
-        
         ShowCursor();
     }
 
     void Start()
     {
+        
         isPaused = true;
         Time.timeScale = 0;
         
+        
         ShowCursor();
         
-            startButton.onClick.AddListener(OnStartButtonClick);
         
-            startButton.gameObject.SetActive(true);
+        
+            mainMenu.SetActive(true);
+            settingsMenu.SetActive(false);
     }
     
     void Update()
@@ -42,6 +42,12 @@ public class GameManager : MonoBehaviour
         if (isPaused)
         {
             ShowCursor();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isPaused = !isPaused;
+            pauseMenu.SetActive(isPaused);
         }
     }
     
@@ -61,6 +67,32 @@ public class GameManager : MonoBehaviour
     {
         StateResume();
     }
+    
+    public void OpenSettingsMenu()
+    {
+        if (mainMenu != null)
+        {
+            mainMenu.SetActive(false);
+        }
+        
+        if (settingsMenu != null)
+        {
+            settingsMenu.SetActive(true);
+        }
+    }
+    
+    public void CloseSettingsMenu()
+    {
+        if (settingsMenu != null)
+        {
+            settingsMenu.SetActive(false);
+        }
+        
+        if (mainMenu != null)
+        {
+            mainMenu.SetActive(true);
+        }
+    }
 
     public void StatePause()
     {
@@ -73,10 +105,11 @@ public class GameManager : MonoBehaviour
             mainMenu.SetActive(true);
         }
         
-        if (startButton != null && startButton.gameObject != null)
+        if (settingsMenu != null)
         {
-            startButton.gameObject.SetActive(true);
+            settingsMenu.SetActive(false);
         }
+        
     }
 
     public void StateResume()
@@ -90,15 +123,30 @@ public class GameManager : MonoBehaviour
             mainMenu.SetActive(false);
         }
         
-        if (startButton != null && startButton.gameObject != null)
+        if (settingsMenu != null)
         {
-            startButton.gameObject.SetActive(false);
+            settingsMenu.SetActive(false);
         }
+
+        if (pauseMenu != null)
+        {
+            pauseMenu.SetActive(false);
+        }
+        
     }
 
     public static GameManager GetInstance()
     {
         return instance;
+    }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
+#endif
     }
 
     public Transform GetLightGoToPosition()
