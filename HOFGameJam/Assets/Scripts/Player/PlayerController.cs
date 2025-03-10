@@ -295,25 +295,15 @@ public class PlayerController : MonoBehaviour
         
         if (hasFallenTooFar)
         {
-            RespawnAtCheckpoint();
+            deathByFall();
         }
     }
     
-    private void RespawnAtCheckpoint()
+    void deathByFall()
     {
         controller.enabled = false;
-        transform.position = lastValidCheckpoint;
-        velocity = Vector3.zero;
-        if (isGravityInverted)
-        {
-            isGravityInverted = false;
-            currentGravityFactor = 1f;
-            playerModel.localRotation = Quaternion.identity;
-            targetCameraRotation = Quaternion.identity;
-        }
+        this.transform.position = lastValidCheckpoint;
         controller.enabled = true;
-        isTransitioning = false;
-        Time.timeScale = defaultTimeScale;
     }
     
     public bool IsGrounded()
