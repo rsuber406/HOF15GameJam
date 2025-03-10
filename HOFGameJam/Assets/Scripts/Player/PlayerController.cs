@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private int maxJumps = 1;
     [SerializeField] private float gravityStrength = 9.81f; 
-    [SerializeField] private float cameraInversionSpeed;
+    [SerializeField] private float cameraInversionSpeed = 2f;
     
     [SerializeField] private float groundCheckRadius = 0.3f;
     [SerializeField] private float groundCheckDistance = 0.2f;
@@ -26,28 +26,54 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField] private KeyCode gravityInvertKey = KeyCode.G;
     
+  
+    [SerializeField] private float gravityTransitionDuration = 1.0f;
+    [SerializeField] private float gravityInversionCooldown = 1.5f;
+    [SerializeField] private float timeSlowFactor = 0.5f;
+    
     private Vector3 velocity;
     private Vector3 lastValidCheckpoint;
     private int jumpCount;
     private bool isGrounded;
     private bool isGravityInverted;
     private Quaternion targetCameraRotation;
-    private float jumpCooldown = 0f; 
+    private float jumpCooldown = 0f;
     
+   
+    private float gravityTransitionTimer = 0f;
+    private float gravityInversionCooldownTimer = 0f;
+    private float currentGravityFactor = 1f;
+    private bool isTransitioning = false;
+    private float defaultTimeScale;
+    
+   
     
     private void Start()
     {
         lastValidCheckpoint = initialCheckpoint;
         targetCameraRotation = cameraTransform.localRotation;
+        defaultTimeScale = Time.timeScale;
         
         controller = GetComponent<CharacterController>();
     }
     
     private void Update()
     {
+        // Update timers
         if (jumpCooldown > 0)
         {
             jumpCooldown -= Time.deltaTime;
+        }
+        
+        if (gravityInversionCooldownTimer > 0)
+        {
+            gravityInversionCooldownTimer -= Time.deltaTime;
+        }
+        
+       
+        if (isTransitioning)
+        {
+            UpdateGravityTransition();
         }
         
         isGrounded = (jumpCooldown <= 0) && CheckGrounded();
@@ -77,13 +103,11 @@ public class PlayerController : MonoBehaviour
         return isGravityInverted;
     }
     
-    
     private void HandleMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
       
-        
         Vector3 cameraForward = Vector3.Scale(cameraTransform.forward, new Vector3(1, 0, 1)).normalized;
         Vector3 cameraRight = cameraTransform.right;
         Vector3 moveDirection = (horizontalInput * cameraRight) + (verticalInput * cameraForward);
@@ -103,9 +127,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump") && jumpCount < maxJumps)
         {
             float jumpVelocity = Mathf.Sqrt(2 * gravityStrength * jumpHeight);
-            velocity.y = jumpVelocity * (isGravityInverted ? -1 : 1);
+            velocity.y = jumpVelocity * (currentGravityFactor);
             jumpCount++;
-            jumpCooldown = 0.1f; // 100ms cooldown
+            jumpCooldown = 0.1f; 
         }
     }
     
@@ -113,49 +137,86 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded && jumpCooldown <= 0)
         {
-            velocity.y = -0.5f * (isGravityInverted ? -1 : 1);
+            velocity.y = -0.5f * currentGravityFactor;
         }
         else
         {
-            int gravityDirection = isGravityInverted ? -1 : 1;
+            velocity.y -= gravityStrength * currentGravityFactor * Time.deltaTime;
             
-            velocity.y -= gravityStrength * gravityDirection * Time.deltaTime;
-            
-            // Clamp terminal velocity to prevent excessive falling speed
             float maxFallSpeed = 20f;
-            if (isGravityInverted)
-            {
-                velocity.y = Mathf.Max(velocity.y, -maxFallSpeed);
-            }
-            else
-            {
-                velocity.y = Mathf.Min(velocity.y, maxFallSpeed);
-            }
+            velocity.y = Mathf.Clamp(velocity.y, -maxFallSpeed * Mathf.Abs(currentGravityFactor), maxFallSpeed * Mathf.Abs(currentGravityFactor));
         }
     }
     
     private void HandleGravityInversion()
     {
-        if (Input.GetKeyDown(gravityInvertKey))
+        if (Input.GetKeyDown(gravityInvertKey) && !isTransitioning && gravityInversionCooldownTimer <= 0)
         {
-            ToggleGravity();
+            StartGravityTransition();
         }
+    }
+    
+    private void StartGravityTransition()
+    {
+        isTransitioning = true;
+        gravityTransitionTimer = 0f;
+        gravityInversionCooldownTimer = gravityInversionCooldown;
+        
+        Time.timeScale = defaultTimeScale * timeSlowFactor;
+        
+    }
+    
+    private void UpdateGravityTransition()
+    {
+        gravityTransitionTimer += Time.unscaledDeltaTime;
+        float progress = gravityTransitionTimer / gravityTransitionDuration;
+        
+        if (progress >= 1.0f)
+        {
+            // Finalize transition
+            isTransitioning = false;
+            isGravityInverted = !isGravityInverted;
+            currentGravityFactor = isGravityInverted ? -1f : 1f;
+            
+            Time.timeScale = defaultTimeScale;
+            
+            velocity = Vector3.zero;
+            velocity.y = 0.2f * currentGravityFactor;
+            
+            jumpCount = 0;
+            
+        }
+        else
+        {
+            float targetGravityFactor = isGravityInverted ? 1f : -1f;
+            currentGravityFactor = Mathf.Lerp(currentGravityFactor, targetGravityFactor, SmoothTransitionCurve(progress));
+            float rotationAngle = Mathf.Lerp(isGravityInverted ? 180f : 0f, isGravityInverted ? 0f : 180f, SmoothTransitionCurve(progress));
+            playerModel.localRotation = Quaternion.Euler(rotationAngle, 0f, 0f);
+            targetCameraRotation = Quaternion.Euler(rotationAngle, 0f, 0f);
+        }
+    }
+    private float SmoothTransitionCurve(float t)
+    {
+        // Smooth step function: 3t² - 2t³
+        return t * t * (3f - 2f * t);
     }
     
     private void ToggleGravity()
     {
         isGravityInverted = !isGravityInverted;
+        currentGravityFactor = isGravityInverted ? -1f : 1f;
         playerModel.localRotation = Quaternion.Euler(isGravityInverted ? 180f : 0f, 0f, 0f);
         targetCameraRotation = Quaternion.Euler(isGravityInverted ? 180f : 0f, 0f, 0f);
         velocity = Vector3.zero;
-        velocity.y = 0.2f * (isGravityInverted ? -1 : 1);
+        velocity.y = 0.2f * currentGravityFactor;
         
         jumpCount = 0;
     }
     
     private void UpdateCameraRotation()
     {
-        cameraTransform.localRotation = Quaternion.Slerp(cameraTransform.localRotation, targetCameraRotation, cameraInversionSpeed * Time.deltaTime);
+        float speed = isTransitioning ? cameraInversionSpeed * 1.5f : cameraInversionSpeed;
+        cameraTransform.localRotation = Quaternion.Slerp(cameraTransform.localRotation, targetCameraRotation, speed * Time.unscaledDeltaTime);
     }
 
     private bool CheckGrounded()
@@ -163,7 +224,9 @@ public class PlayerController : MonoBehaviour
         float offsetFromCenter = controller.height / 2;
         Vector3 origin = transform.position;
         
-        if (isGravityInverted)
+        int gravityDirection = currentGravityFactor < 0 ? -1 : 1;
+        
+        if (gravityDirection < 0)
         {
             origin.y += offsetFromCenter - groundCheckDistance * 0.5f;
         }
@@ -172,7 +235,7 @@ public class PlayerController : MonoBehaviour
             origin.y -= offsetFromCenter - groundCheckDistance * 0.5f;
         }
         
-        Vector3 direction = isGravityInverted ? Vector3.up : Vector3.down;
+        Vector3 direction = gravityDirection < 0 ? Vector3.up : Vector3.down;
         float actualCheckDistance = groundCheckDistance;
         
         Collider[] hitColliders = Physics.OverlapSphere(origin + direction * actualCheckDistance, groundCheckRadius);
@@ -221,7 +284,7 @@ public class PlayerController : MonoBehaviour
     {
         bool hasFallenTooFar = false;
         
-        if (isGravityInverted)
+        if (currentGravityFactor < 0)
         {
             hasFallenTooFar = transform.position.y >= fallDeathY;
         }
@@ -240,19 +303,18 @@ public class PlayerController : MonoBehaviour
     {
         controller.enabled = false;
         transform.position = lastValidCheckpoint;
-        
         velocity = Vector3.zero;
-        
         if (isGravityInverted)
         {
             isGravityInverted = false;
+            currentGravityFactor = 1f;
             playerModel.localRotation = Quaternion.identity;
             targetCameraRotation = Quaternion.identity;
         }
-        
         controller.enabled = true;
+        isTransitioning = false;
+        Time.timeScale = defaultTimeScale;
     }
-    
     
     public bool IsGrounded()
     {
@@ -264,8 +326,18 @@ public class PlayerController : MonoBehaviour
         return isGravityInverted;
     }
     
+    public bool IsTransitioningGravity()
+    {
+        return isTransitioning;
+    }
+    
     public void SetCheckpoint(Vector3 position)
     {
         lastValidCheckpoint = position;
+    }
+    
+    private void OnDisable()
+    {
+        Time.timeScale = defaultTimeScale;
     }
 }

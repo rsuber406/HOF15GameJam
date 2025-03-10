@@ -139,6 +139,9 @@ MonoBehaviour:
   initialCheckpoint: {x: 0, y: 0, z: 0}
   fallDeathY: 100
   gravityInvertKey: 103
+  gravityTransitionDuration: 1
+  gravityInversionCooldown: 1.5
+  timeSlowFactor: 0.5
 --- !u!143 &6495681371122332142
 CharacterController:
   m_ObjectHideFlags: 0
