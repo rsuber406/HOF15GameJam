@@ -2,134 +2,227 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class playerController : MonoBehaviour
+using UnityEngine;
+
+
+public class PlayerController : MonoBehaviour
 {
-    [SerializeField] CharacterController controller;
-    [SerializeField] LayerMask ignoreMask;
-
-    [SerializeField] int speed;
-    [SerializeField] int jumpMax;
-    [SerializeField] int jumpSpeed;
-    [SerializeField] int gravity;
-    [SerializeField] LayerMask groundLayer;
-
-    [SerializeField] Vector3 lastValidCheckpoint;
-
-    [SerializeField] private KeyCode gravityInvert = KeyCode.G;
-    [SerializeField] Transform playerModel;
-    [SerializeField] Transform camTransform;
-
-    [SerializeField] private float cameraInversionSpeed;
-
-    float groundCheckDistance = 0.3f;
-    private bool isCustomGrounded;
-    Vector3 moveDir;
-    Vector3 playerVel;
+    [SerializeField] private CharacterController controller;
+    [SerializeField] private Transform playerModel;
+    [SerializeField] private Transform cameraTransform;
+    
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float jumpHeight = 2f;
+    [SerializeField] private int maxJumps = 1;
+    [SerializeField] private float gravityStrength = 9.81f;
+    [SerializeField] private float cameraInversionSpeed = 5f;
+    
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float groundCheckRadius = 0.3f;
+    [SerializeField] private float groundCheckDistance = 0.2f;
+    [SerializeField] private bool showGroundCheckDebug = true;
+    
+    [SerializeField] private Vector3 initialCheckpoint = Vector3.zero;
+    [SerializeField] private float fallDeathY = 100f;
+    
+    [SerializeField] private KeyCode gravityInvertKey = KeyCode.G;
+    
+    private Vector3 velocity;
+    private Vector3 lastValidCheckpoint;
+    private int jumpCount;
+    private bool isGrounded;
     private bool isGravityInverted;
-    private int currentGravityModifier = 1;
-    Quaternion targetCamRotation;
-
-    int jumpCount;
-
-    void Start()
+    private Quaternion targetCameraRotation;
+    
+    
+    private void Start()
     {
-        targetCamRotation = camTransform.localRotation;
-    }
-
-    void Update()
-    {
-        CheckGravityInversion();
-        CheckGrounded();
-        movement();
-        UpdateCamera();
-
-        if (this.transform.position.y <= -100 || this.transform.position.y >= 100)
-        {
-            deathByFall();
-        }
-    }
-
-    void CheckGrounded()
-    {
+        lastValidCheckpoint = initialCheckpoint;
+        targetCameraRotation = cameraTransform.localRotation;
         
+            controller = GetComponent<CharacterController>();
+            
+    }
+    
+    private void Update()
+    {
+        isGrounded = CheckGrounded();
         
+        HandleGravityInversion();
+        HandleMovement();
+        HandleJumping();
+        
+        ApplyGravity();
+        controller.Move(velocity * Time.deltaTime);
+        
+        UpdateCameraRotation();
+        
+        CheckFallDeath();
     }
-
-    void UpdateCamera()
-    {
-        camTransform.localRotation = Quaternion.Slerp(
-            camTransform.localRotation,
-            targetCamRotation,
-            cameraInversionSpeed * Time.deltaTime
-        );
-    }
-
-    void movement()
-    {
-        if (isCustomGrounded)
-        {
-            jumpCount = 0;
-            playerVel.y = 0;
-        }
-
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
-        Vector3 cameraForward = Vector3.Scale(camTransform.forward, new Vector3(1, 0, 1)).normalized;
-        Vector3 cameraRight = camTransform.right;
-
-        if (isGravityInverted)
-        {
-            horizontal *= -1;
-        }
-
-        moveDir = (horizontal * cameraRight) + (vertical * cameraForward);
-        controller.Move(moveDir * speed * Time.deltaTime);
-
-        jump();
-
-        playerVel.y -= gravity * currentGravityModifier * Time.deltaTime;
-        controller.Move(playerVel * Time.deltaTime);
-    }
-
-    void jump()
-    {
-        if (Input.GetButtonDown("Jump") && jumpCount < jumpMax && isCustomGrounded)
-        {
-            jumpCount++;
-            playerVel.y = jumpSpeed * (isGravityInverted ? -1 : 1);
-            Debug.Log("Jump executed with velocity: " + playerVel.y);
-        }
-    }
-
-    void deathByFall()
-    {
-        controller.enabled = false;
-        this.transform.position = lastValidCheckpoint;
-        controller.enabled = true;
-    }
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Checkpoint"))
         {
-            lastValidCheckpoint = this.transform.position;
+            lastValidCheckpoint = transform.position;
         }
     }
 
-    private void CheckGravityInversion()
+    public bool GetFlip()
     {
-        if (Input.GetKeyDown(gravityInvert))
+        return isGravityInverted;
+    }
+    
+    
+    private void HandleMovement()
+    {
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+      
+        
+        Vector3 cameraForward = Vector3.Scale(cameraTransform.forward, new Vector3(1, 0, 1)).normalized;
+        Vector3 cameraRight = cameraTransform.right;
+        Vector3 moveDirection = (horizontalInput * cameraRight) + (verticalInput * cameraForward);
+        if (moveDirection.magnitude > 0.1f)
         {
-            isGravityInverted = !isGravityInverted;
-            currentGravityModifier = isGravityInverted ? -1 : 1;
-            
-            playerModel.localRotation = Quaternion.Euler(isGravityInverted ? 180f : 0f, 0f, 0f);
-            
-            
-            playerVel = Vector3.zero;
-            jumpCount = 0;
-            playerVel.y = 0.2f * currentGravityModifier;
+            controller.Move(moveDirection.normalized * moveSpeed * Time.deltaTime);
         }
     }
+    private void HandleJumping()
+    {
+        if (isGravityInverted && velocity.y <= 0.1f || !isGravityInverted && velocity.y >= -0.1f)
+        {
+            jumpCount = 0;
+        }
+        
+        if (Input.GetButtonDown("Jump") && jumpCount < maxJumps)
+        {
+            float jumpVelocity = Mathf.Sqrt(2 * gravityStrength * jumpHeight);
+            velocity.y = jumpVelocity * (isGravityInverted ? -1 : 1);
+            jumpCount++;
+        }
+    }
+    
+    private void ApplyGravity()
+    {
+        if (isGrounded && velocity.y * (isGravityInverted ? -1 : 1) < 0)
+        {
+            velocity.y = -0.5f * (isGravityInverted ? -1 : 1);
+        }
+        else
+        {
+            int gravityDirection = isGravityInverted ? -1 : 1;
+            velocity.y -= gravityStrength * gravityDirection * Time.deltaTime;
+        }
+    }
+    private void HandleGravityInversion()
+    {
+        if (Input.GetKeyDown(gravityInvertKey))
+        {
+            ToggleGravity();
+        }
+    }
+    
+    private void ToggleGravity()
+    {
+        isGravityInverted = !isGravityInverted;
+        playerModel.localRotation = Quaternion.Euler(isGravityInverted ? 180f : 0f, 0f, 0f);
+        targetCameraRotation = Quaternion.Euler(isGravityInverted ? 180f : 0f, 0f, 0f);
+        velocity = Vector3.zero;
+        velocity.y = 0.2f * (isGravityInverted ? -1 : 1);
+        
+        jumpCount = 0;
+        
+    }
+    
+    private void UpdateCameraRotation()
+    {
+        
+        cameraTransform.localRotation = Quaternion.Slerp(
+            cameraTransform.localRotation,
+            targetCameraRotation,
+            cameraInversionSpeed * Time.deltaTime
+        );
+    }
+    
+    private bool CheckGrounded()
+    {
+       
+        Vector3 rayDirection = isGravityInverted ? Vector3.up : Vector3.down;
+        
+       
+        Collider playerCollider = GetComponent<Collider>();
+        if (playerCollider == null)
+        {
+            
+            playerCollider = controller;
+        }
+        
+        
+        Vector3 rayOrigin = transform.position;
+        if (isGravityInverted)
+        {
+            rayOrigin.y = playerCollider.bounds.max.y - 0.05f; 
+        }
+        else
+        {
+            rayOrigin.y = playerCollider.bounds.min.y + 0.05f; 
+        }
+        
+        
+        return Physics.SphereCast(rayOrigin, groundCheckRadius, rayDirection, out _, groundCheckDistance, groundLayer);
+    }
+    
+    private void CheckFallDeath()
+    {
+        bool hasFallenTooFar = false;
+        
+        if (isGravityInverted)
+        {
+            hasFallenTooFar = transform.position.y >= fallDeathY;
+        }
+        else
+        {
+            hasFallenTooFar = transform.position.y <= -fallDeathY;
+        }
+        
+        if (hasFallenTooFar)
+        {
+            RespawnAtCheckpoint();
+        }
+    }
+    
+    private void RespawnAtCheckpoint()
+    {
+        controller.enabled = false;
+        transform.position = lastValidCheckpoint;
+        
+        velocity = Vector3.zero;
+        
+        if (isGravityInverted)
+        {
+            isGravityInverted = false;
+            playerModel.localRotation = Quaternion.identity;
+            targetCameraRotation = Quaternion.identity;
+        }
+        
+        controller.enabled = true;
+    }
+    
+    
+    public bool IsGrounded()
+    {
+        return isGrounded;
+    }
+    
+    public bool IsGravityInverted()
+    {
+        return isGravityInverted;
+    }
+    
+    public void SetCheckpoint(Vector3 position)
+    {
+        lastValidCheckpoint = position;
+    }
+    
 }
