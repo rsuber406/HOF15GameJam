@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.835266, y: 1.63, z: 9.530001}
-  m_LocalScale: {x: 0.5, y: 1, z: 0.5}
+  m_LocalScale: {x: 0.5, y: 0.7, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4232450608122427615}
@@ -131,13 +131,10 @@ MonoBehaviour:
   moveSpeed: 5
   jumpHeight: 2
   maxJumps: 1
-  gravityStrength: 10.01
-  cameraInversionSpeed: 0.4
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  groundCheckRadius: 0.01
-  groundCheckDistance: 0.01
+  gravityStrength: 10
+  cameraInversionSpeed: 0.001
+  groundCheckRadius: 0.1
+  groundCheckDistance: 0.1
   showGroundCheckDebug: 1
   initialCheckpoint: {x: 0, y: 0, z: 0}
   fallDeathY: 100
@@ -195,7 +192,7 @@ Transform:
   m_GameObject: {fileID: 6508919253536065248}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.099, y: 0.625, z: -0.05}
+  m_LocalPosition: {x: 0.08, y: 0.625, z: -0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

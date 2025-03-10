@@ -14,10 +14,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private int maxJumps = 1;
-    [SerializeField] private float gravityStrength = 9.81f;
-    [SerializeField] private float cameraInversionSpeed = 5f;
+    [SerializeField] private float gravityStrength = 9.81f; // Added default value for clarity
+    [SerializeField] private float cameraInversionSpeed;
     
-    [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckRadius = 0.3f;
     [SerializeField] private float groundCheckDistance = 0.2f;
     [SerializeField] private bool showGroundCheckDebug = true;
@@ -33,6 +32,7 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool isGravityInverted;
     private Quaternion targetCameraRotation;
+    private float jumpCooldown = 0f; // Add a cooldown for ground check after jumping
     
     
     private void Start()
@@ -40,13 +40,19 @@ public class PlayerController : MonoBehaviour
         lastValidCheckpoint = initialCheckpoint;
         targetCameraRotation = cameraTransform.localRotation;
         
-            controller = GetComponent<CharacterController>();
-            
+        controller = GetComponent<CharacterController>();
     }
     
     private void Update()
     {
-        isGrounded = CheckGrounded();
+        // Update jump cooldown
+        if (jumpCooldown > 0)
+        {
+            jumpCooldown -= Time.deltaTime;
+        }
+        
+        // Only check grounded state if we're not in jump cooldown
+        isGrounded = (jumpCooldown <= 0) && CheckGrounded();
         
         HandleGravityInversion();
         HandleMovement();
@@ -88,33 +94,56 @@ public class PlayerController : MonoBehaviour
             controller.Move(moveDirection.normalized * moveSpeed * Time.deltaTime);
         }
     }
+    
     private void HandleJumping()
     {
-        if (isGravityInverted && velocity.y <= 0.1f || !isGravityInverted && velocity.y >= -0.1f)
+        if (isGrounded)
         {
             jumpCount = 0;
         }
         
         if (Input.GetButtonDown("Jump") && jumpCount < maxJumps)
         {
+            // Calculate jump force based on physics formula for jump height
             float jumpVelocity = Mathf.Sqrt(2 * gravityStrength * jumpHeight);
+            
+            // Apply jump velocity in the appropriate direction
             velocity.y = jumpVelocity * (isGravityInverted ? -1 : 1);
             jumpCount++;
+            
+            // Add a short cooldown to prevent immediate ground detection after jumping
+            jumpCooldown = 0.1f; // 100ms cooldown
         }
     }
     
     private void ApplyGravity()
     {
-        if (isGrounded && velocity.y * (isGravityInverted ? -1 : 1) < 0)
+        if (isGrounded && jumpCooldown <= 0)
         {
+            // When grounded, apply a small downward force to keep the player on the ground
             velocity.y = -0.5f * (isGravityInverted ? -1 : 1);
         }
         else
         {
+            // Apply gravity when in the air
             int gravityDirection = isGravityInverted ? -1 : 1;
+            
+            // Use a smoother gravity application (multiply by Time.deltaTime)
             velocity.y -= gravityStrength * gravityDirection * Time.deltaTime;
+            
+            // Clamp terminal velocity to prevent excessive falling speed
+            float maxFallSpeed = 20f;
+            if (isGravityInverted)
+            {
+                velocity.y = Mathf.Max(velocity.y, -maxFallSpeed);
+            }
+            else
+            {
+                velocity.y = Mathf.Min(velocity.y, maxFallSpeed);
+            }
         }
     }
+    
     private void HandleGravityInversion()
     {
         if (Input.GetKeyDown(gravityInvertKey))
@@ -132,47 +161,77 @@ public class PlayerController : MonoBehaviour
         velocity.y = 0.2f * (isGravityInverted ? -1 : 1);
         
         jumpCount = 0;
-        
     }
     
     private void UpdateCameraRotation()
     {
-        
-        cameraTransform.localRotation = Quaternion.Slerp(
-            cameraTransform.localRotation,
-            targetCameraRotation,
-            cameraInversionSpeed * Time.deltaTime
-        );
+        cameraTransform.localRotation = Quaternion.Slerp(cameraTransform.localRotation, targetCameraRotation, cameraInversionSpeed * Time.deltaTime);
     }
-    
+
     private bool CheckGrounded()
     {
-       
-        Vector3 rayDirection = isGravityInverted ? Vector3.up : Vector3.down;
+        // Calculate the start position of the check based on the character controller's dimensions
+        float offsetFromCenter = controller.height / 2;
+        Vector3 origin = transform.position;
         
-       
-        Collider playerCollider = GetComponent<Collider>();
-        if (playerCollider == null)
-        {
-            
-            playerCollider = controller;
-        }
-        
-        
-        Vector3 rayOrigin = transform.position;
+        // Adjust the origin to be slightly inside the character controller to avoid self-collision
         if (isGravityInverted)
         {
-            rayOrigin.y = playerCollider.bounds.max.y - 0.05f; 
+            origin.y += offsetFromCenter - groundCheckDistance * 0.5f;
         }
         else
         {
-            rayOrigin.y = playerCollider.bounds.min.y + 0.05f; 
+            origin.y -= offsetFromCenter - groundCheckDistance * 0.5f;
         }
         
+        Vector3 direction = isGravityInverted ? Vector3.up : Vector3.down;
+        float actualCheckDistance = groundCheckDistance;
         
-        return Physics.SphereCast(rayOrigin, groundCheckRadius, rayDirection, out _, groundCheckDistance, groundLayer);
+        // Use OverlapSphere instead of SphereCast for more reliable ground detection
+        Collider[] hitColliders = Physics.OverlapSphere(origin + direction * actualCheckDistance, groundCheckRadius);
+        
+        bool foundGround = false;
+        foreach (var hitCollider in hitColliders)
+        {
+            // Skip if it's our own collider
+            if (hitCollider.gameObject == gameObject)
+                continue;
+                
+            // Check for Ground tag
+            if (hitCollider.CompareTag("Ground"))
+            {
+                foundGround = true;
+                break;
+            }
+        }
+        
+        if (showGroundCheckDebug)
+        {
+            Color debugColor = foundGround ? Color.green : Color.red;
+            Debug.DrawRay(origin, direction * actualCheckDistance, debugColor, 0.01f);
+            
+            Vector3 sphereCenter = origin + direction * actualCheckDistance;
+            Debug.DrawLine(sphereCenter, sphereCenter + Vector3.right * groundCheckRadius, debugColor, 0.01f);
+            Debug.DrawLine(sphereCenter, sphereCenter + Vector3.left * groundCheckRadius, debugColor, 0.01f);
+            Debug.DrawLine(sphereCenter, sphereCenter + Vector3.forward * groundCheckRadius, debugColor, 0.01f);
+            Debug.DrawLine(sphereCenter, sphereCenter + Vector3.back * groundCheckRadius, debugColor, 0.01f);
+            
+            int segments = 8;
+            for (int i = 0; i < segments; i++)
+            {
+                float angle = (float)i / segments * 2 * Mathf.PI;
+                float nextAngle = (float)(i + 1) / segments * 2 * Mathf.PI;
+                
+                Vector3 pos1 = sphereCenter + new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * groundCheckRadius;
+                Vector3 pos2 = sphereCenter + new Vector3(Mathf.Cos(nextAngle), 0, Mathf.Sin(nextAngle)) * groundCheckRadius;
+                
+                Debug.DrawLine(pos1, pos2, debugColor, 0.01f);
+            }
+        }
+        
+        return foundGround;
     }
-    
+
     private void CheckFallDeath()
     {
         bool hasFallenTooFar = false;
@@ -224,5 +283,4 @@ public class PlayerController : MonoBehaviour
     {
         lastValidCheckpoint = position;
     }
-    
 }
