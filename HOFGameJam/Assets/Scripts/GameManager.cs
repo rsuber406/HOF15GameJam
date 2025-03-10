@@ -60,7 +60,6 @@ public class GameManager : MonoBehaviour
 
         if (isPaused)
         {
-            Time.timeScale = 0;
             ShowCursor();
         }
 
