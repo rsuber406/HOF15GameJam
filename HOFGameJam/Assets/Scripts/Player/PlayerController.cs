@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private int maxJumps = 1;
-    [SerializeField] private float gravityStrength = 9.81f; // Added default value for clarity
+    [SerializeField] private float gravityStrength = 9.81f; 
     [SerializeField] private float cameraInversionSpeed;
     
     [SerializeField] private float groundCheckRadius = 0.3f;
@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool isGravityInverted;
     private Quaternion targetCameraRotation;
-    private float jumpCooldown = 0f; // Add a cooldown for ground check after jumping
+    private float jumpCooldown = 0f; 
     
     
     private void Start()
@@ -45,13 +45,11 @@ public class PlayerController : MonoBehaviour
     
     private void Update()
     {
-        // Update jump cooldown
         if (jumpCooldown > 0)
         {
             jumpCooldown -= Time.deltaTime;
         }
         
-        // Only check grounded state if we're not in jump cooldown
         isGrounded = (jumpCooldown <= 0) && CheckGrounded();
         
         HandleGravityInversion();
@@ -104,14 +102,9 @@ public class PlayerController : MonoBehaviour
         
         if (Input.GetButtonDown("Jump") && jumpCount < maxJumps)
         {
-            // Calculate jump force based on physics formula for jump height
             float jumpVelocity = Mathf.Sqrt(2 * gravityStrength * jumpHeight);
-            
-            // Apply jump velocity in the appropriate direction
             velocity.y = jumpVelocity * (isGravityInverted ? -1 : 1);
             jumpCount++;
-            
-            // Add a short cooldown to prevent immediate ground detection after jumping
             jumpCooldown = 0.1f; // 100ms cooldown
         }
     }
@@ -120,15 +113,12 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded && jumpCooldown <= 0)
         {
-            // When grounded, apply a small downward force to keep the player on the ground
             velocity.y = -0.5f * (isGravityInverted ? -1 : 1);
         }
         else
         {
-            // Apply gravity when in the air
             int gravityDirection = isGravityInverted ? -1 : 1;
             
-            // Use a smoother gravity application (multiply by Time.deltaTime)
             velocity.y -= gravityStrength * gravityDirection * Time.deltaTime;
             
             // Clamp terminal velocity to prevent excessive falling speed
@@ -170,11 +160,9 @@ public class PlayerController : MonoBehaviour
 
     private bool CheckGrounded()
     {
-        // Calculate the start position of the check based on the character controller's dimensions
         float offsetFromCenter = controller.height / 2;
         Vector3 origin = transform.position;
         
-        // Adjust the origin to be slightly inside the character controller to avoid self-collision
         if (isGravityInverted)
         {
             origin.y += offsetFromCenter - groundCheckDistance * 0.5f;
@@ -187,17 +175,14 @@ public class PlayerController : MonoBehaviour
         Vector3 direction = isGravityInverted ? Vector3.up : Vector3.down;
         float actualCheckDistance = groundCheckDistance;
         
-        // Use OverlapSphere instead of SphereCast for more reliable ground detection
         Collider[] hitColliders = Physics.OverlapSphere(origin + direction * actualCheckDistance, groundCheckRadius);
         
         bool foundGround = false;
         foreach (var hitCollider in hitColliders)
         {
-            // Skip if it's our own collider
             if (hitCollider.gameObject == gameObject)
                 continue;
                 
-            // Check for Ground tag
             if (hitCollider.CompareTag("Ground"))
             {
                 foundGround = true;
