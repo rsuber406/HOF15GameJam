@@ -21,4 +21,9 @@ public class LightIntensity : MonoBehaviour
         light.range = light_range;
         light.color = new Color(red, green, blue, alpha) * light_intensity;
     }
+
+    public void InvertLight()
+    { 
+        light_intensity = light_intensity * -1.0f;
+    }
 }
