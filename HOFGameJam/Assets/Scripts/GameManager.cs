@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject settingsMenu; 
     [SerializeField] private Transform[] lightPositions;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] public GameObject toolTip;
     
     public static GameManager instance;
     private int guidedTransform = 0;
@@ -58,6 +60,7 @@ public class GameManager : MonoBehaviour
 
         if (isPaused)
         {
+            Time.timeScale = 0;
             ShowCursor();
         }
 
@@ -67,7 +70,21 @@ public class GameManager : MonoBehaviour
             pauseMenu.SetActive(isPaused);
         }
     }
-    
+
+    public void Win()
+    {
+        isPaused = !isPaused;
+        winScreen.gameObject.SetActive(isPaused);
+        StartCoroutine(wait());
+        
+    }
+
+    private IEnumerator wait()
+    {
+         yield return new WaitForSeconds(1.0f);
+         creditsScreen.gameObject.SetActive(isPaused);
+    }
+
     private void ShowCursor()
     {
         Cursor.visible = true;
