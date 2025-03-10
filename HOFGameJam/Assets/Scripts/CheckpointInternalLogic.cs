@@ -30,7 +30,7 @@ public class CheckpointInternalLogic : MonoBehaviour
     void Start()
     {
         haloLight.SetActive(false);
-
+        lightIsOn = false;
         var light = GetComponent<Light>();
         light.range = light_range;
         light.color = new Color(red, green, blue, alpha) * 0;
@@ -53,6 +53,10 @@ public class CheckpointInternalLogic : MonoBehaviour
             disabledTrigger = true;
 
             haloLight.SetActive(false);
+        }
+        else if (other.tag == "LightOrb")
+        { 
+            lightIsOn = true;
         }
     }
 
