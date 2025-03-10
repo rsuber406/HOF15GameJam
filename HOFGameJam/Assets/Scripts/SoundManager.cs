@@ -83,5 +83,11 @@ public class SoundManager : MonoBehaviour
     {
         // get differential for master volume
     }
+
+    public void SetMusicVolume(float volume)
+    { 
+        musicVolume = volume;
+    }
+
     // Update is called once per frame
 }
