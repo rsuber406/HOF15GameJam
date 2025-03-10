@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject settingsMenu; 
     [SerializeField] private Transform[] lightPositions;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] public GameObject toolTip;
     
     public static GameManager instance;
     private int guidedTransform = 0;
@@ -75,12 +76,13 @@ public class GameManager : MonoBehaviour
         isPaused = !isPaused;
         winScreen.gameObject.SetActive(isPaused);
         StartCoroutine(wait());
-        creditsScreen.gameObject.SetActive(isPaused);
+        
     }
 
     private IEnumerator wait()
     {
          yield return new WaitForSeconds(1.0f);
+         creditsScreen.gameObject.SetActive(isPaused);
     }
 
     private void ShowCursor()
