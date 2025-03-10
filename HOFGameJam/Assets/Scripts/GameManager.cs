@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
 
         if (isPaused)
         {
+            Time.timeScale = 0;
             ShowCursor();
         }
 
@@ -66,6 +67,13 @@ public class GameManager : MonoBehaviour
             isPaused = !isPaused;
             pauseMenu.SetActive(isPaused);
         }
+    }
+
+    public void Win()
+    {
+        isPaused = !isPaused;
+        winScreen.gameObject.SetActive(isPaused);
+        creditsScreen.gameObject.SetActive(isPaused);
     }
     
     private void ShowCursor()
