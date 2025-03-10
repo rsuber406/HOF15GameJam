@@ -124,11 +124,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2473622603337536142, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
   m_PrefabInstance: {fileID: 2150103298733276269}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &140055060 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5489051535654423990, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
-  m_PrefabInstance: {fileID: 2150103298733276269}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,7 +235,7 @@ GameObject:
   - component: {fileID: 1644312914}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -349,7 +344,7 @@ GameObject:
   - component: {fileID: 2059305657}
   m_Layer: 0
   m_Name: Plane (1)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -444,11 +439,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -180, y: 0, z: 0}
---- !u!4 &2116620363 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4232450608122427615, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
-  m_PrefabInstance: {fileID: 2150103298733276269}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2150103298733276269
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -458,44 +448,32 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 403242027750903124, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
-      propertyPath: playerModel
-      value: 
-      objectReference: {fileID: 140055060}
-    - target: {fileID: 403242027750903124, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
-      propertyPath: cameraTransform
-      value: 
-      objectReference: {fileID: 2116620363}
-    - target: {fileID: 403242027750903124, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
       propertyPath: gravityStrength
-      value: 10.01
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 403242027750903124, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
       propertyPath: groundCheckRadius
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 403242027750903124, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
-      propertyPath: groundLayer.m_Bits
-      value: 4294967295
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 403242027750903124, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
       propertyPath: groundCheckDistance
-      value: 0.01
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 403242027750903124, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
       propertyPath: cameraInversionSpeed
-      value: 0.4
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 2473622603337536142, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4232450608122427615, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.625
+      propertyPath: m_LocalPosition.x
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 5489051535654423990, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 5489051535654423990, guid: a6921fbfb19fed1469985def9f96c1f2, type: 3}
       propertyPath: m_LocalPosition.x
