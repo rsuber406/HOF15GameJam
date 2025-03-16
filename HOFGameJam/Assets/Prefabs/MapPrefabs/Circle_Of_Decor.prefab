@@ -43,6 +43,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7751961809854649807}
     m_Modifications:
+    - target: {fileID: 483160172046152437, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: 4550946308758434466, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: 7276685474050688246, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: 7365328968785384725, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     - target: {fileID: 7682185739614334323, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
       propertyPath: m_Name
       value: Decoration (1)
@@ -105,6 +121,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7751961809854649807}
     m_Modifications:
+    - target: {fileID: 483160172046152437, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: 4550946308758434466, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: 7276685474050688246, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: 7365328968785384725, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     - target: {fileID: 7682185739614334323, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
       propertyPath: m_Name
       value: Decoration (2)
@@ -167,6 +199,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7751961809854649807}
     m_Modifications:
+    - target: {fileID: 483160172046152437, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: 4550946308758434466, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: 7276685474050688246, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: 7365328968785384725, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     - target: {fileID: 7682185739614334323, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
       propertyPath: m_Name
       value: Decoration
@@ -229,6 +277,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7751961809854649807}
     m_Modifications:
+    - target: {fileID: 483160172046152437, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: 4550946308758434466, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: 7276685474050688246, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: 7365328968785384725, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     - target: {fileID: 7682185739614334323, guid: 04cb754f8a9a44942a46852d85845491, type: 3}
       propertyPath: m_Name
       value: Decoration (3)
