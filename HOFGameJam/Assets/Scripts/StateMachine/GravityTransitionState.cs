@@ -1,9 +1,9 @@
 using UnityEngine;
 
-using UnityEngine;
-
 public class GravityTransitionState : PlayerState
 {
+    private ThirdPersonCameraController cameraController;
+    
     public GravityTransitionState(PlayerController player, PlayerStateMachine stateMachine) 
         : base(player, stateMachine)
     {
@@ -16,12 +16,35 @@ public class GravityTransitionState : PlayerState
         player.GravityInversionCooldownTimer = player.GravityInversionCooldown;
         player.InitialCameraRotation = player.PlayerModel.localRotation;
         
+        // Find camera controller if not already assigned
+        if (cameraController == null)
+        {
+            Camera mainCamera = Camera.main;
+            if (mainCamera != null)
+            {
+                cameraController = mainCamera.GetComponent<ThirdPersonCameraController>();
+                if (cameraController != null)
+                {
+                    cameraController.NotifyGravityInversionStarted();
+                }
+            }
+        }
+        else
+        {
+            cameraController.NotifyGravityInversionStarted();
+        }
+        
         Time.timeScale = player.DefaultTimeScale * player.TimeSlowFactor;
     }
 
     public override void Exit()
     {
         Time.timeScale = player.DefaultTimeScale;
+        
+        if (cameraController != null)
+        {
+            cameraController.NotifyGravityInversionCompleted();
+        }
     }
 
     public override void Update()
@@ -87,7 +110,6 @@ public class GravityTransitionState : PlayerState
     private float SmoothTransitionCurve(float t)
     {
         // smooth step function: 3t^2 - 2t^3
-        //used for smoothing out animations
         return t * t * (3f - 2f * t);
     }
 }

@@ -11,19 +11,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform playerModel;
     [SerializeField] private Transform cameraTransform;
 
+    [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private int maxJumps = 1;
     [SerializeField] private float gravityStrength = 9.81f;
     [SerializeField] private float cameraInversionSpeed = 2f;
 
+    [Header("Ground Check Settings")]
     [SerializeField] private float groundCheckRadius = 0.3f;
     [SerializeField] private float groundCheckDistance = 0.2f;
     [SerializeField] private bool showGroundCheckDebug = true;
 
+    [Header("Death Settings")]
     [SerializeField] private Vector3 initialCheckpoint = Vector3.zero;
     [SerializeField] private float fallDeathY = 100f;
 
+    [Header("Other Settings")]
     [SerializeField] private KeyCode gravityInvertKey = KeyCode.G;
     [SerializeField] private float gravityTransitionDuration = 1.0f;
     [SerializeField] private float gravityInversionCooldown = 1.5f;
@@ -145,18 +149,16 @@ public class PlayerController : MonoBehaviour
 
     public void UpdateCameraRotation()
     {
-        float speed = IsTransitioning ? CameraInversionSpeed * 1.5f : CameraInversionSpeed;
-        Quaternion targetRotation = Quaternion.Euler(0f, 180f, 0f);
+    
+        if (!IsTransitioning)
+            return;
         
-        if (!IsGravityInverted)
-        {
-            CameraTransform.localRotation = Quaternion.SlerpUnclamped(CameraTransform.localRotation, targetRotation, speed * Time.unscaledDeltaTime);
-        }
-        else
-        {
-            TargetCameraRotation = CameraTransform.localRotation;
-            CameraTransform.localRotation = Quaternion.SlerpUnclamped(CameraTransform.localRotation, targetRotation, speed * Time.unscaledDeltaTime);
-        }
+        float progress = GravityTransitionTimer / GravityTransitionDuration;
+        float transitionCurve = progress * progress * (3f - 2f * progress); //smooth step transition
+    
+        float targetAngle = IsGravityInverted ? 0f : 180f;
+        Quaternion targetRotation = Quaternion.Euler(targetAngle, PlayerModel.localEulerAngles.y, 0f);
+        PlayerModel.localRotation = Quaternion.Slerp(InitialCameraRotation, targetRotation, transitionCurve);
     }
 
     public bool CheckGrounded()
@@ -168,11 +170,11 @@ public class PlayerController : MonoBehaviour
 
         if (gravityDirection < 0)
         {
-            origin.y += offsetFromCenter - GroundCheckDistance * 0.5f;
+            origin.y += offsetFromCenter - GroundCheckDistance * 0.2f;
         }
         else
         {
-            origin.y -= offsetFromCenter - GroundCheckDistance * 0.5f;
+            origin.y -= offsetFromCenter - GroundCheckDistance * 0.2f;
         }
 
         Vector3 direction = gravityDirection < 0 ? Vector3.up : Vector3.down;
@@ -274,13 +276,13 @@ public class PlayerController : MonoBehaviour
             string groundedInfo = IsGrounded ? "Grounded" : "Airborne";
             
             GUI.Label(new Rect(10, 10, 300, 20), $"State: {stateName}", debugTextStyle);
-            GUI.Label(new Rect(10, 30, 300, 20), $"Gravity: {gravityInfo} ({CurrentGravityFactor:F2})", debugTextStyle);
+            GUI.Label(new Rect(10, 30, 300, 20), $"Gravity: {gravityInfo} ({CurrentGravityFactor})", debugTextStyle);
             GUI.Label(new Rect(10, 50, 300, 20), $"Grounded: {groundedInfo}", debugTextStyle);
             GUI.Label(new Rect(10, 70, 300, 20), $"Jump Count: {JumpCount}/{MaxJumps}", debugTextStyle);
             
             if (IsTransitioning)
             {
-                GUI.Label(new Rect(10, 90, 300, 20), $"Transition: {GravityTransitionTimer:F2}/{GravityTransitionDuration:F2}", debugTextStyle);
+                GUI.Label(new Rect(10, 90, 300, 20), $"Transition: {GravityTransitionTimer}/{GravityTransitionDuration}", debugTextStyle);
             }
             
             if (GravityInversionCooldownTimer > 0)
